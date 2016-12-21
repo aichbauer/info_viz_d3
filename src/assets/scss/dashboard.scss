@@ -2,7 +2,10 @@
 
 $font-stack: Lato, sans-serif;
 $primary-color: #333;
-$dashboard-background-color: #dcdcdc;
+$dashboard-bg-col: #dcdcdc;
+$menu-bar-bg-col: #48d1cc;
+$map-barchart-bg-col: #98fb98;
+$graph-bg-col: #ffa07a;
 
 body {
   color: $primary-color;
@@ -10,8 +13,7 @@ body {
 }
 
 .container-dashboard {
-  background: $dashboard-background-color;
-  display: flex;
+  background: $dashboard-bg-col;
   height: 100vh;
   width: 100vw;
 
@@ -21,14 +23,26 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    width: 100vw;
   }
 
   .wrapper-menu {
+    background: $menu-bar-bg-col;
+    height: 10vh;
     justify-content: flex-start;
+  }
+
+  .wrapper-map-barchart {
+    background: $map-barchart-bg-col;
+  }
+
+  .wrapper-graph {
+    background: $graph-bg-col;
   }
 
   .wrapper-map-barchart,
   .wrapper-graph {
+    height: 45vh;
     justify-content: center;
   }
 }

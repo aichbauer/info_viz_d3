@@ -6,16 +6,26 @@ var open = require('gulp-open');
 var sass = require('gulp-sass');
 
 
-gulp.task('default', function () {
+gulp.task('default', ['html_task','sass_task','js_task']);
 
-  gulp.src('src/*.html')
+gulp.task('sass_task',function () {
+
+  return gulp.src('src/assets/scss/*.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('dist/assets/css'));
+
+});
+
+gulp.task('html_task',function () {
+
+  return gulp.src('src/*.html')
     .pipe(gulp.dest('dist'));
 
-  gulp.src('src/assets/sass/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./css'));
+});
 
-  gulp.src('src/assets/js/*.js')
+gulp.task('js_task',function () {
+
+  return gulp.src('src/assets/js/*.js')
     .pipe(babel({
 
         presets: ['es2015']
@@ -23,14 +33,19 @@ gulp.task('default', function () {
       })
     )
     .pipe(uglify())
-    .pipe(gulp.dest('dist/assets.js'));
+    .pipe(gulp.dest('dist/assets/js'));
 
-  gulp.src('dist')
-    .pipe(webserver({
-      port: 8000
-    }));
+});
 
-  gulp.src('./dist/index.html')
-    .pipe(open());
+gulp.task('webserver', function () {
 
+  return gulp.src('dist')
+    .pipe(webserver());
+
+});
+
+gulp.task('watch', ['webserver'], function () {
+  gulp.watch('src/*.html', ['html_task']);
+  gulp.watch('src/assets/scss/*.scss', ['sass_task']);
+  gulp.watch('src/assets/js/*.js', ['js_task']);
 });

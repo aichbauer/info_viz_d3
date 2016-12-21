@@ -4,6 +4,7 @@ var babel = require('gulp-babel');
 var webserver = require('gulp-webserver');
 var open = require('gulp-open');
 var sass = require('gulp-sass');
+var server = require('gulp-server-livereload');
 
 
 gulp.task('default', ['html_task','sass_task','js_task']);
@@ -38,11 +39,12 @@ gulp.task('js_task',function () {
 });
 
 gulp.task('webserver', function () {
-
   return gulp.src('dist')
-    .pipe(webserver());
-
-});
+    .pipe(server({
+      livereload: true,
+      open:true
+    }))
+})
 
 gulp.task('watch', ['webserver'], function () {
   gulp.watch('src/*.html', ['html_task']);

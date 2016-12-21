@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
+
+$font-stack: Lato, sans-serif;
+$primary-color: #333;
+$dashboard-background-color: #dcdcdc;
+
+body {
+  color: $primary-color;
+  font: 100% $font-stack;
+}
+
+.container-dashboard {
+  background: $dashboard-background-color;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+
+  .wrapper-menu,
+  .wrapper-map-barchart,
+  .wrapper-graph {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .wrapper-menu {
+    justify-content: flex-start;
+  }
+
+  .wrapper-map-barchart,
+  .wrapper-graph {
+    justify-content: center;
+  }
+}

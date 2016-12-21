@@ -1,1 +1,2 @@
-document.write('hello world');
+import * as d3 from 'd3';
+

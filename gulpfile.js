@@ -22,7 +22,7 @@ gulp.task('default', function () {
 
   gulp.src('dist')
     .pipe(webserver({
-      port: 1234
+      port: 8000
     }));
 
   gulp.src('./dist/index.html')

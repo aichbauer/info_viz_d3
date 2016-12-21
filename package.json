@@ -29,5 +29,8 @@
     "presets": [
       "es2015"
     ]
+  },
+  "dependencies": {
+    "d3": "^4.4.0"
   }
 }

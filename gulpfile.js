@@ -1,8 +1,6 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var babel = require('gulp-babel');
-var webserver = require('gulp-webserver');
-var open = require('gulp-open');
 var sass = require('gulp-sass');
 var server = require('gulp-server-livereload');
 

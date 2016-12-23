@@ -1,12 +1,16 @@
-var gulp    = require('gulp');
-var uglify  = require('gulp-uglify');
-var babel   = require('gulp-babel');
-var sass    = require('gulp-sass');
-var server  = require('gulp-server-livereload');
+var gulp       = require('gulp');
+var uglify     = require('gulp-uglify');
+var sass       = require('gulp-sass');
+var server     = require('gulp-server-livereload');
+var clean      = require('gulp-clean');
+var source     = require('vinyl-source-stream');
+var browserify = require('browserify');
+var babelify = require('babelify');
 
 gulp.task('default', ['htmlTask','sassTask','jsTask']);
 
 gulp.task('serve', ['htmlTask','sassTask','jsTask'], function(){
+
 
   gulp.src('./dist')
     .pipe(server({
@@ -40,14 +44,14 @@ gulp.task('htmlTask',function () {
 
 gulp.task('jsTask',function () {
 
-  return gulp.src('./src/assets/js/*.js')
-    .pipe(babel({
+  return browserify({
 
-        presets: ['es2015']
+    entries: './src/assets/js/index.js'
 
-      })
-    )
-    .pipe(uglify())
-    .pipe(gulp.dest('./dist/assets/js'));
+  })
+  .transform(babelify)
+  .bundle()
+  .pipe(source('bundle.js'))
+  .pipe(gulp.dest('./dist/assets/js'));
 
 });

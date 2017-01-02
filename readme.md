@@ -14,6 +14,7 @@ $ npm i
 
 #### grunt serve
 
+* cleanup: deletes everything in dist folder
 * copies transpiled js, css and html to dist folder
 * serve dist folder on http://localhost:8000
 * opens the index.html from dist folder in your default browser

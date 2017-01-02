@@ -8,7 +8,7 @@ class MapChart {
   }
 
 
-  update(new_data) {
+  render(new_data) {
 
   }
 

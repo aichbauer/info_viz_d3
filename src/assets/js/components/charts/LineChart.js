@@ -8,7 +8,7 @@ class LineChart {
   }
 
 
-  update(new_data) {
+  render(new_data) {
 
   }
 

@@ -31,13 +31,13 @@ class BarChart {
 
     d3.json(dataAsJSON, (error, json) => {
       this.data = json;
-      this.update(this.data);
+      this.render(this.data);
     });
 
   }
 
 
-  update(new_data) {
+  render(new_data) {
     
     this.xscale.domain([0, d3.max(new_data, (d) => d.temperature)]);
     this.yscale.domain(new_data.map((d) => d.location.city));

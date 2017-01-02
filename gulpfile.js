@@ -1,15 +1,18 @@
-var gulp       = require('gulp');
-var uglify     = require('gulp-uglify');
-var sass       = require('gulp-sass');
-var server     = require('gulp-server-livereload');
-var clean      = require('gulp-clean');
-var source     = require('vinyl-source-stream');
-var browserify = require('browserify');
-var babelify = require('babelify');
+var gulp        = require('gulp');
+var uglify      = require('gulp-uglify');
+var sass        = require('gulp-sass');
+var server      = require('gulp-server-livereload');
+var clean       = require('gulp-clean');
+var source      = require('vinyl-source-stream');
+var browserify  = require('browserify');
+var babelify    = require('babelify');
+var del         = require('del');
 
-gulp.task('default', ['htmlTask','sassTask','jsTask']);
 
-gulp.task('serve', ['htmlTask','sassTask','jsTask'], function(){
+gulp.task('default', ['htmlTask','sassTask','jsTask', 'jsonTask']);
+
+
+gulp.task('serve', ['htmlTask','sassTask','jsTask', 'jsonTask'], function(){
 
 
   gulp.src('./dist')
@@ -22,29 +25,56 @@ gulp.task('serve', ['htmlTask','sassTask','jsTask'], function(){
   )
 
   gulp.watch('./src/*.html', ['htmlTask']);
+
   gulp.watch('./src/assets/scss/*.scss', ['sassTask']);
+
   gulp.watch('./src/assets/js/*.js', ['jsTask']);
+  gulp.watch('./src/assets/js/**/*.js', ['jsTask']);
+  gulp.watch('./src/assets/js/**/**/*.js', ['jsTask']);
+  gulp.watch('./src/assets/js/**/**/**/*.js', ['jsTask']);
+  gulp.watch('./src/assets/js/**/**/**/**/*.js', ['jsTask']);
+
+  gulp.watch('./src/assets/json/*.json', ['jsonTask']);
 
 });
+
 
 gulp.task('sassTask',function () {
 
-  return gulp.src('./src/assets/scss/*.scss')
+  del(['./dist/assets/scss/*.scss']).then(paths => {
+
+    console.log('Deleted files and folders:\n', paths.join('\n'));
+
+    return gulp.src('./src/assets/scss/*.scss')
     .pipe(sass())
     .pipe(gulp.dest('./dist/assets/css'));
 
+  });
+
 });
+
 
 gulp.task('htmlTask',function () {
 
-  return gulp.src('./src/*.html')
+  del(['./dist/*.html']).then(paths => {
+
+    console.log('Deleted files and folders:\n', paths.join('\n'));
+
+    return gulp.src('./src/*.html')
     .pipe(gulp.dest('dist'));
+    
+  });
 
 });
 
+
 gulp.task('jsTask',function () {
 
-  return browserify({
+  del(['./dist/assets/js/bundle.js']).then(paths => {
+
+    console.log('Deleted files and folders:\n', paths.join('\n'));
+
+    return browserify({
 
     entries: './src/assets/js/index.js'
 
@@ -54,5 +84,21 @@ gulp.task('jsTask',function () {
   .on('error',console.error.bind(console))
   .pipe(source('bundle.js'))
   .pipe(gulp.dest('./dist/assets/js'));
+    
+  });
+
+});
+
+
+gulp.task('jsonTask',function () {
+
+  del(['./dist/assets/data/*.json']).then(paths => {
+
+    console.log('Deleted files and folders:\n', paths.join('\n'));
+
+    return gulp.src('./src/assets/data/*.json')
+    .pipe(gulp.dest('./dist/assets/data'));
+
+  });
 
 });

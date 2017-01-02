@@ -49,7 +49,6 @@ gulp.task('jsTask',function () {
     entries: './src/assets/js/index.js'
 
   })
-  .transform(sassify)
   .transform(babelify)
   .bundle()
   .on('error',console.error.bind(console))

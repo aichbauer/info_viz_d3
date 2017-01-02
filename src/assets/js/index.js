@@ -1,4 +1,9 @@
-import * as d3 from 'd3';
+// Import every Class before you can use it
+import BarChart from './components/charts/BarChart';
+import LineChart from './components/charts/LineChart';
+import MapChart from './components/charts/MapChart';
+import Menu from './components/menu/Menu';
 
-// testing the import for browserify
-d3.select('body').append('rect');
+// Create a new object of BarChart Class ###   TEST   ###
+new BarChart(10,200,200,'.wrapper-map-barchart','./assets/data/test.json');
+

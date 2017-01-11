@@ -9,6 +9,8 @@ $map-bg-col: #fff;
 $barchart-bg-col: #fefea0;
 $graph-bg-col: #ffa07a;
 
+$min-height-map: 480px;
+
 body {
   color: $primary-color;
   font: 100% $font-stack;
@@ -42,7 +44,7 @@ body {
     background: $map-bg-col;
     height: 50vh;
     justify-content: center;
-    min-height: 450px;
+    min-height: $min-height-map;
   }
 
   .wrapper-barchart {
@@ -52,7 +54,7 @@ body {
   .wrapper-map,
   .wrapper-barchart {
     height: 50vh;
-    min-height: 450px;
+    min-height: $min-height-map;
     width: 50vw;
   }
 

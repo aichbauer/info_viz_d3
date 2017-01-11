@@ -1,6 +1,7 @@
 [
   {
     "Connecticut": {
+      "Code": "CT",
       "Years": {
         "2009": {
           "Population": 3518288,
@@ -154,6 +155,7 @@
   },
   {
     "Maine": {
+      "Code": "ME",
       "Years": {
         "2009": {
           "Population": 1318301,
@@ -307,6 +309,7 @@
   },
   {
     "Massachusetts": {
+      "Code": "MA",
       "Years": {
         "2009": {
           "Population": 6593587,
@@ -460,6 +463,7 @@
   },
   {
     "New Hampshire": {
+      "Code": "NH",
       "Years": {
         "2009": {
           "Population": 1324575,
@@ -613,6 +617,7 @@
   },
   {
     "Rhode Island": {
+      "Code": "RI",
       "Years": {
         "2009": {
           "Population": 1053209,

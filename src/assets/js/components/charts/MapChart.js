@@ -5,15 +5,18 @@ import Datamap from 'datamaps/dist/datamaps.usa.js';
 
 class MapChart {
 
-  constructor() {
+  constructor(dataAsJSON) {
 
-    this.render();
+    d3.json(dataAsJSON, (error, json) => {
+      this.data = json;
+      this.render(this.data);
+    });
 
   }
 
-  render() {
+  render(new_data) {
 
-    var map = new Datamap({
+    const map = new Datamap({
       scope: 'usa',
       element: document.getElementById('map'),
       geographyConfig: {
@@ -21,7 +24,7 @@ class MapChart {
         popupTemplate: function (geography, data) {
           return '<div class="hoverinfo">' + geography.properties.name + '<br />Electoral Votes:' + data.electoralVotes + ' ';
         },
-        highlightBorderWidth: 3
+        highlightBorderWidth: 3,
       },
 
       fills: {
@@ -33,6 +36,7 @@ class MapChart {
         'Light Republican': '#EAA9A8',
         defaultFill: '#EDDC4E'
       },
+
       data: {
         "AZ": {
           "fillKey": "Republican",

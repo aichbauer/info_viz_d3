@@ -7,4 +7,6 @@ import Menu from './components/menu/Menu';
 // Create a new object of BarChart Class ###   TEST   ###
 new BarChart(10, 200, 200, '.wrapper-barchart', './assets/data/Crime_Region.json');
 
+new MapChart();
+
 

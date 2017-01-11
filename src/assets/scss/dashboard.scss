@@ -5,6 +5,8 @@ $primary-color: #333;
 $dashboard-bg-col: #dcdcdc;
 $menu-bar-bg-col: #48d1cc;
 $map-barchart-bg-col: #98fb98;
+$map-bg-col: #ffdead;
+$barchart-bg-col: #fefea0;
 $graph-bg-col: #ffa07a;
 
 body {
@@ -36,6 +38,14 @@ body {
     background: $map-barchart-bg-col;
   }
 
+  .wrapper-map {
+    background: $map-bg-col;
+  }
+
+  .wrapper-barchart {
+    background: $barchart-bg-col;
+  }
+
   .wrapper-graph {
     background: $graph-bg-col;
   }
@@ -45,4 +55,11 @@ body {
     height: 45vh;
     justify-content: center;
   }
+
+  .wrapper-map,
+  .wrapper-barchart {
+    height: 45vh;
+    width: 50vw;
+  }
+
 }

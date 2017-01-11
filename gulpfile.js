@@ -9,10 +9,10 @@ var babelify    = require('babelify');
 var del         = require('del');
 
 
-gulp.task('default', ['htmlTask','sassTask','jsTask', 'jsonTask']);
+gulp.task('default', ['htmlTask','sassTask','jsTask', 'dataTask']);
 
 
-gulp.task('serve', ['htmlTask','sassTask','jsTask', 'jsonTask'], function(){
+gulp.task('serve', ['htmlTask','sassTask','jsTask', 'dataTask'], function(){
 
 
   gulp.src('./dist')
@@ -34,7 +34,7 @@ gulp.task('serve', ['htmlTask','sassTask','jsTask', 'jsonTask'], function(){
   gulp.watch('./src/assets/js/**/**/**/*.js', ['jsTask']);
   gulp.watch('./src/assets/js/**/**/**/**/*.js', ['jsTask']);
 
-  gulp.watch('./src/assets/json/*.json', ['jsonTask']);
+  gulp.watch('./src/assets/json/*.*', ['dataTask']);
 
 });
 
@@ -90,13 +90,13 @@ gulp.task('jsTask',function () {
 });
 
 
-gulp.task('jsonTask',function () {
+gulp.task('dataTask',function () {
 
-  del(['./dist/assets/data/*.json']).then(paths => {
+  del(['./dist/assets/data/*.*']).then(paths => {
 
     console.log('Deleted files and folders:\n', paths.join('\n'));
 
-    return gulp.src('./src/assets/data/*.json')
+    return gulp.src('./src/assets/data/*.*')
     .pipe(gulp.dest('./dist/assets/data'));
 
   });

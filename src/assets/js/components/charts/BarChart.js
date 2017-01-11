@@ -31,6 +31,7 @@ class BarChart {
 
     d3.json(dataAsJSON, (error, json) => {
       this.data = json;
+      console.log(this.data);
       this.render(this.data);
     });
 
@@ -39,15 +40,15 @@ class BarChart {
 
   render(new_data) {
     
-    this.xscale.domain([0, d3.max(new_data, (d) => d.temperature)]);
-    this.yscale.domain(new_data.map((d) => d.location.city));
+    this.xscale.domain([0, d3.max(new_data, (d) => d.crimes.years.Larceny.theft)]);
+    this.yscale.domain(new_data.map((d) => d.location));
     
     this.g_xaxis.call(this.xaxis);
     this.g_yaxis.call(this.yaxis);
 
     // Render the chart with new data
     // DATA JOIN use the key argument for ensurign that the same DOM element is bound to the same data-item
-    const rect = this.g.selectAll('rect').data(new_data, (d) => d.location.city);
+    const rect = this.g.selectAll('rect').data(new_data, (d) => d.location);
 
     // ENTER
     // new elements
@@ -62,9 +63,9 @@ class BarChart {
     // both old and new elements
     rect.merge(rect_enter).transition()
       .attr('height', this.yscale.bandwidth())
-      .attr('width', (d) => this.xscale(d.temperature))
-      .attr('y', (d) => this.yscale(d.location.city));
-    rect.merge(rect_enter).select('title').text((d) => d.location.city);
+      .attr('width', (d) => this.xscale(d.crimes))
+      .attr('y', (d) => this.yscale(d.location));
+    rect.merge(rect_enter).select('title').text((d) => d.location);
     // EXIT
     // elements that aren't associated with data
     rect.exit().remove();

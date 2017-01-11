@@ -39,8 +39,8 @@ class BarChart {
 
 
   render(new_data) {
-    
-    this.xscale.domain([0, d3.max(new_data, (d) => d.crimes.years.Larceny.theft)]);
+
+    this.xscale.domain([0, d3.max(new_data, (d) => d.crimes.years['2009'] )]);
     this.yscale.domain(new_data.map((d) => d.location));
     
     this.g_xaxis.call(this.xaxis);
@@ -63,7 +63,7 @@ class BarChart {
     // both old and new elements
     rect.merge(rect_enter).transition()
       .attr('height', this.yscale.bandwidth())
-      .attr('width', (d) => this.xscale(d.crimes))
+      .attr('width', (d) => this.xscale())
       .attr('y', (d) => this.yscale(d.location));
     rect.merge(rect_enter).select('title').text((d) => d.location);
     // EXIT

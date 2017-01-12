@@ -38,6 +38,7 @@ body {
 
   .wrapper-map-barchart {
     background: $map-barchart-bg-col;
+    overflow: scroll;
   }
 
   .wrapper-map {
@@ -48,6 +49,10 @@ body {
   }
 
   .wrapper-barchart {
+    background: $barchart-bg-col;
+  }
+
+  .svg-barchart{
     background: $barchart-bg-col;
   }
 

@@ -8,21 +8,43 @@ class BarChart {
   // this.argument is available in every function inside this class
   constructor(margin, width, height, barchartDivClass, dataAsJSON) {
 
+    const that = this;
+
+    this.inputYear = d3.select(barchartDivClass).append('select');
+      this.inputYear.attr('id', 'barchart-year-selection');
+      this.inputCrime = d3.select(barchartDivClass).append('select');
+      this.inputCrime.attr('id', 'barchart-crime-selection');
+
+      this.button = d3.select(barchartDivClass).append('button');
+      this.button.html('Click me');
+      this.button
+        .on('click', function (event) {
+          
+          d3.event.preventDefault();
+          var selYear = document.getElementById('barchart-year-selection');
+          selYear = selYear.options[selYear.selectedIndex].value;
+          var selCrime = document.getElementById('barchart-crime-selection');
+          selCrime = selCrime.options[selCrime.selectedIndex].value;
+          that.filter(dataAsJSON, selYear, selCrime);
+
+        });
+
     this.margin = margin;
 
-    this.width = width - this.margin*2;
-    this.height = height - this.margin*2;
+    this.width = width - margin.left - margin.right;
+    this.height = height - margin.top - margin.bottom;
 
     this.svg = d3.select(barchartDivClass).append('svg')
-      .attr('width', this.width)
-      .attr('height', this.height);
+      .attr('width', this.width + margin.left + margin.right)
+      .attr('height', this.height + margin.top + margin.bottom)
+      .attr('class', 'svg-barchart');
     this.g = this.svg.append('g')
-      .attr('transform', `translate(${this.margin},${this.margin})`);
+      .attr('transform', `translate(${margin.left},${margin.top})`);
 
     this.data;
 
-    this.xscale = d3.scaleLinear().range([0, width]);
-    this.yscale = d3.scaleBand().rangeRound([0, height]).paddingInner(0.1);
+    this.xscale = d3.scaleLinear().range([0, this.width]);
+    this.yscale = d3.scaleBand().rangeRound([0, this.height]).paddingInner(0.1);
 
     this.xaxis = d3.axisTop().scale(this.xscale);
     this.g_xaxis = this.g.append('g').attr('class', 'x axis');
@@ -31,18 +53,36 @@ class BarChart {
 
     d3.json(dataAsJSON, (error, json) => {
       this.data = json;
-      console.log(this.data);
+
+      let years = Object.keys(this.data[0].crimes.years);
+      for (let i of years) {
+
+        let option = this.inputYear.append('option');
+        option.html(i);
+        option.attr('value', i);
+
+      }
+      let crimes = Object.keys(this.data[0].crimes.years['2009']);
+      for (let i of crimes) {
+
+        let option = this.inputCrime.append('option');
+        option.html(i);
+        option.attr('value', i);
+
+      }
       this.render(this.data);
     });
 
   }
 
 
-  render(new_data) {
+  render(new_data, year = '2009', crime = 'Violent.crime.number.rate') {
 
-    this.xscale.domain([0, d3.max(new_data, (d) => d.crimes.years['2009'] )]);
+
+
+    this.xscale.domain([0, d3.max(new_data, (d) => d['crimes']['years'][year][crime])]);
     this.yscale.domain(new_data.map((d) => d.location));
-    
+
     this.g_xaxis.call(this.xaxis);
     this.g_yaxis.call(this.yaxis);
 
@@ -63,7 +103,7 @@ class BarChart {
     // both old and new elements
     rect.merge(rect_enter).transition()
       .attr('height', this.yscale.bandwidth())
-      .attr('width', (d) => this.xscale())
+      .attr('width', (d) => this.xscale(d['crimes']['years'][year][crime]))
       .attr('y', (d) => this.yscale(d.location));
     rect.merge(rect_enter).select('title').text((d) => d.location);
     // EXIT
@@ -72,12 +112,15 @@ class BarChart {
 
   }
 
+  filter(dataAsJSON, year, crime) {
 
-  filter() {
+    d3.json(dataAsJSON, (error, json) => {
+      this.data = json;
+      this.render(this.data, year, crime);
 
-
-
+    });
   }
+
 
 }
 

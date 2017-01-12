@@ -22,9 +22,9 @@ class MapChart {
       geographyConfig: {
         highlightBorderColor: '#bada55',
         popupTemplate: function (geography, data) {
-          return '<div class="hoverinfo">' + geography.properties.name + '<br />Electoral Votes:' + data.electoralVotes + ' ';
+          return '<div class="hoverinfo">' + geography.properties.name + '<br/>Electoral Votes: ' +  data.electoralVotes + ' ';
         },
-        highlightBorderWidth: 3,
+        highlightBorderWidth: 3
       },
 
       fills: {
@@ -36,7 +36,6 @@ class MapChart {
         'Light Republican': '#EAA9A8',
         defaultFill: '#EDDC4E'
       },
-
       data: {
         "AZ": {
           "fillKey": "Republican",

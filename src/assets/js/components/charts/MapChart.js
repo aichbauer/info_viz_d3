@@ -7,6 +7,9 @@ class MapChart {
 
     const that = this;
     this.geoData = geoData;
+    this.darkGrey = 'rgb(127, 127, 127)';
+    this.lightGrey = 'rgb(199, 199, 199)';
+    this.tooltipPadding = '15px';
 
     this.inputYear = d3.select(mapChartDivClass).append('select');
     this.inputYear.attr('id', 'mapchart-year-selection');
@@ -25,9 +28,6 @@ class MapChart {
         selCrime = selCrime.options[selCrime.selectedIndex].value;
         that.filter(dataAsJSON, selYear, selCrime);
       });
-
-    this.darkGrey = 'rgb(127, 127, 127)';
-    this.tooltipPadding = '15px';
 
     // D3 PROJECTION
     this.projection = d3.geoAlbersUsa()
@@ -93,7 +93,60 @@ class MapChart {
     });
   }
 
-  render(new_data, year = '2009', crime = 'Rape') {
+  mapFillCol(crimeName, alphaVal) {
+
+    let fillCol;
+
+    switch (crimeName) {
+      case 'Population':
+        fillCol = d3.rgb(31, 119, 180, alphaVal);
+        break;
+      case 'Violent.crime.number':
+      case 'Violent.crime.number.rate':
+        fillCol = d3.rgb(148, 103, 189, alphaVal);
+        break;
+      case 'Murder.and.nonnegligent.manslaughter':
+      case 'Murder.and.nonnegligent.manslaughter.rate':
+        fillCol = d3.rgb(214, 39, 40, alphaVal);
+        break;
+      case 'Rape':
+      case 'Rape.rate':
+        fillCol = d3.rgb(255, 127, 14, alphaVal);
+        break;
+      case 'Robbery':
+      case 'Robbery.rate':
+        fillCol = d3.rgb(44, 160, 44, alphaVal);
+        break;
+      case 'Aggravated.assault':
+      case 'Aggravated.assault.rate':
+        fillCol = d3.rgb(140, 86, 75, alphaVal);
+        break;
+      case 'Property.crime':
+      case 'Property.crime.rate':
+        fillCol = d3.rgb(188, 189, 34, alphaVal);
+        break;
+      case 'Burglary':
+      case 'Burglary.rate':
+        fillCol = d3.rgb(23, 190, 207, alphaVal);
+        break;
+      case 'Larceny.theft':
+      case 'Larceny.theft.rate':
+        fillCol = d3.rgb(227, 119, 194, alphaVal);
+        break;
+      case 'Motor.vehicle.theft':
+      case 'Motor.vehicle.theft.rate':
+        fillCol = d3.rgb(102, 170, 0, alphaVal);
+        break;
+      default:
+        break;
+    }
+
+    return fillCol;
+  }
+
+  render(new_data, year = '2009', crime = 'Violent.crime.number') {
+
+    const that = this;
 
     //////////////////////
     /// CREATE THE MAP ///
@@ -140,67 +193,57 @@ class MapChart {
           }
         }
 
-        console.log("allValues befor");
-        console.log(allValues);
-
         // Get highest value
         allValues = allValues.sort((a, b) => a - b).reverse();
         let highestVal = allValues[0];
-
-        console.log("allValues after");
-        console.log(allValues);
 
         let opacityVal = 1;
         let value = 0;
 
         // Bind the data to the SVG and create one path per GeoJSON feature
-        
-        this.g.selectAll('path')
+        this.svg.selectAll('path')
           .data(json.features)
           .enter()
           .append('path')
-          .merge(this.g)
           .data(json.features)
+          .merge(this.svg.selectAll('path'))
           .attr('d', this.path)
           .style('stroke', this.darkGrey)
           .style('stroke-width', '1')
 
           /**** DEFAULT FILL ****/
-          .style('fill', (d) => {
-
-            console.log('inside fill')
-            console.log(d);
+          .style('fill', function (d) {
 
             // Get data value
             value = d.properties.value;
             opacityVal = 0.01 * ((value / highestVal) * 100);
 
-            console.log("VALUE (Default): ");
-            console.log(value);
+            // Define min opacity
+            if (opacityVal < 0.3) {
+              opacityVal += 0.2;
+            }
 
-            let blue = d3.rgb(31, 119, 180, opacityVal);
+            let fillCol = that.mapFillCol(crime, opacityVal);
 
             if (value) {
               // If value exists…
-              return d3.rgb(blue);
+              return d3.rgb(fillCol);
             } else {
               //If value is undefined…
               return 'rgb(213,222,217)';
             }
           })
           /**** ON-CLICK ****/
-          .on('click', (d) => {
+          .on('click', function (d) {
             console.log(d.properties.code);
           })
           /**** MOUSEOVER ****/
           .on('mouseover', function (d) {
 
-            let greenBeige = d3.rgb(219, 219, 141);
-
             // Change fill-col and stroke-width
             d3.select(this)
               .style('cursor', 'pointer')
-              .style('fill', greenBeige)
+              .style('fill', that.lightGrey)
               .style('stroke-width', '2');
 
             // Add Tooltip
@@ -223,20 +266,22 @@ class MapChart {
               .style('stroke-width', 1)
 
               // Change color to default settings
-              .style('fill', (d) => {
+              .style('fill', function (d) {
 
                 // Get data value
                 value = d.properties.value;
                 opacityVal = 0.01 * ((value / highestVal) * 100);
 
-                console.log("VALUE (mouseout): ");
-                console.log(value);
+                // Define min opacity
+                if (opacityVal < 0.3) {
+                  opacityVal += 0.2;
+                }
 
-                let blue = d3.rgb(31, 119, 180, opacityVal);
+                let fillCol = that.mapFillCol(crime, opacityVal);
 
                 if (value) {
                   // If value exists…
-                  return d3.rgb(blue);
+                  return d3.rgb(fillCol);
                 } else {
                   //If value is undefined…
                   return 'rgb(213,222,217)';
@@ -248,8 +293,13 @@ class MapChart {
             d3.selectAll('.tooltip').transition()
               .duration(500)
               .style("opacity", '0');
-          });
-      });
+
+
+          })// END MOUSEOUT
+
+          .exit().remove();
+
+      });// END SVG
     });
 
 
@@ -258,7 +308,7 @@ class MapChart {
   filter(dataAsJSON, year, crime) {
 
 
-      this.render(dataAsJSON, year, crime);
+    this.render(dataAsJSON, year, crime);
   }
 }
 

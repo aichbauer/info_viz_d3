@@ -20,7 +20,7 @@ class LineChart {
   }
 
 
-  render(new_data, loc = 'New York', valueRate = 'rate') {
+  render(new_data, loc = '', valueRate = '') {
 
     const that = this;
 

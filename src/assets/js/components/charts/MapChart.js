@@ -171,8 +171,9 @@ class MapChart {
           .merge(this.svg.selectAll('path'))
           .attr('d', this.path)
           .style('stroke', this.darkGrey)
+          .attr('class', 'unclicked')
           .style('stroke-width', '1')
-
+        
           /**** DEFAULT FILL ****/
           .style('fill', function (d) {
 
@@ -196,11 +197,17 @@ class MapChart {
             }
           })
 
-          // d3.selectAll('.washington-dc').style('fill', '')
-
           /**** ON-CLICK ****/
           .on('click', function (d) {
-            console.log(d.properties.code);
+            console.log(d.properties.location);
+
+            d3.selectAll('.clicked')
+              .attr('class', 'unclicked')
+              .style('stroke-width', '1');
+
+            d3.select(this)
+              .attr('class', 'clicked')
+              .style('stroke-width', '5');
           })
           /**** MOUSEOVER ****/
           .on('mouseover', function (d) {
@@ -225,9 +232,8 @@ class MapChart {
           /**** MOUSEOUT ****/
           .on('mouseout', function (d) {
 
-            // Change it back to normal value
-            d3.select(this)
-              .style('stroke-width', 1);
+            d3.selectAll('.unclicked')
+              .style('stroke-width', '1');
 
             d3.selectAll('.tooltip').transition()
               .duration(500)
@@ -237,7 +243,7 @@ class MapChart {
 
           .exit().remove();
 
-      });// LOAD GEO DATA
+      });// END LOAD GEO DATA
     }); // END LOAD STATE DATA
 
   } // END RENDER

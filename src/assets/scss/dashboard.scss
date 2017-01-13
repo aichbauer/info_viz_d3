@@ -7,7 +7,7 @@ $menu-bar-bg-col: #48d1cc;
 $map-barchart-bg-col: #fff;
 $map-bg-col: #fff;
 $barchart-bg-col: #fff;
-$graph-bg-col: #ffa07a;
+$graph-bg-col: #fff;
 
 $min-height-map: 480px;
 
@@ -20,6 +20,8 @@ body {
   background: $dashboard-bg-col;
   height: 100vh;
   width: 100vw;
+
+  
 
   .wrapper-menu,
   .wrapper-map-barchart,

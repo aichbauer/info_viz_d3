@@ -7,8 +7,8 @@ import Menu from './components/menu/Menu';
 // Create a new object of BarChart Class ###   TEST   ###
 let BarchartHeight = window.innerWidth/2;
 let BarchartWidth = window.innerWidth/2;
-new BarChart({top: 40, bottom: 10, left: 120, right: 20}, BarchartWidth, BarchartHeight, '.wrapper-barchart', './assets/data/Crime_Region_old.json');
-
+//new BarChart({top: 40, bottom: 10, left: 120, right: 20}, BarchartWidth, BarchartHeight, '.wrapper-barchart', './assets/data/Crime_Region_old.json');
+new LineChart({top: 40, bottom: 10, left: 120, right: 20}, BarchartWidth, BarchartHeight, '.wrapper-barchart', './assets/data/Crime_Region_old.json');
 // new MapChart('./assets/data/Crime_Region.json');
 
 

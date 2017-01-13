@@ -47,7 +47,8 @@ gulp.task('sassTask',function () {
 
     return gulp.src('./src/assets/scss/*.scss')
     .pipe(sass())
-    .pipe(gulp.dest('./dist/assets/css'));
+    .pipe(gulp.dest('./dist/assets/css'))
+    .on('error', handleError);;
 
   });
 
@@ -61,7 +62,8 @@ gulp.task('htmlTask',function () {
     console.log('Deleted files and folders:\n', paths.join('\n'));
 
     return gulp.src('./src/*.html')
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest('dist'))
+    .on('error', handleError);;
     
   });
 
@@ -83,7 +85,8 @@ gulp.task('jsTask',function () {
   .bundle()
   .on('error',console.error.bind(console))
   .pipe(source('bundle.js'))
-  .pipe(gulp.dest('./dist/assets/js'));
+  .pipe(gulp.dest('./dist/assets/js'))
+  .on('error', handleError);;
     
   });
 
@@ -97,8 +100,14 @@ gulp.task('dataTask',function () {
     console.log('Deleted files and folders:\n', paths.join('\n'));
 
     return gulp.src('./src/assets/data/*.*')
-    .pipe(gulp.dest('./dist/assets/data'));
+    .pipe(gulp.dest('./dist/assets/data'))
+    .on('error', handleError);
 
   });
 
 });
+
+function handleError(err) {
+  console.log(err.toString());
+  this.emit('end');
+}

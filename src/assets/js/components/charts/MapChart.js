@@ -104,7 +104,7 @@ class MapChart {
     return fillCol;
   }
 
-  render(new_data, year = '2009', crime = 'Violent.crime.number') {
+  render(new_data, year = '2015', crime = 'Murder.and.nonnegligent.manslaughter') {
 
     const that = this;
 
@@ -208,8 +208,7 @@ class MapChart {
             // Change fill-col and stroke-width
             d3.select(this)
               .style('cursor', 'pointer')
-              .style('fill', that.lightGrey)
-              .style('stroke-width', '2');
+              .style('stroke-width', '5');
 
             // Add Tooltip
             d3.selectAll('.tooltip').transition()
@@ -228,30 +227,7 @@ class MapChart {
 
             // Change it back to normal value
             d3.select(this)
-              .style('stroke-width', 1)
-
-              // Change color to default settings
-              .style('fill', function (d) {
-
-                // Get data value
-                value = d.properties.value;
-                opacityVal = 0.01 * ((value / highestVal) * 100);
-
-                // Define min opacity
-                if (opacityVal < 0.3) {
-                  opacityVal += 0.2;
-                }
-
-                fillCol = that.mapFillCol(crime, opacityVal);
-
-                if (value) {
-                  // If value exists…
-                  return d3.rgb(fillCol);
-                } else {
-                  //If value is undefined…
-                  return 'rgb(213,222,217)';
-                }
-              });
+              .style('stroke-width', 1);
 
             d3.selectAll('.tooltip').transition()
               .duration(500)

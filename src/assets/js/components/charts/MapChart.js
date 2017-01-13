@@ -272,6 +272,11 @@ class MapChart {
                 value = d.properties.value;
                 opacityVal = 0.01 * ((value / highestVal) * 100);
 
+                // Define min opacity
+                if (opacityVal < 0.3) {
+                  opacityVal += 0.2;
+                }
+
                 let fillCol = that.mapFillCol(crime, opacityVal);
 
                 if (value) {

@@ -13,6 +13,3 @@ new BarChart({top: 40, bottom: 10, left: 120, right: 20}, BarchartWidth, Barchar
 let MapChartHeight = window.innerWidth/2;
 let MapCharttWidth = window.innerWidth/2;
 new MapChart({top: 40, bottom: 10, left: 120, right: 20}, MapCharttWidth, MapChartHeight, '.wrapper-map', './assets/data/Crime_Region.json', './assets/data/us-states.json'); 
-
-
-

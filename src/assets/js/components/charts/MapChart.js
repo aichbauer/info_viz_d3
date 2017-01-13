@@ -7,6 +7,8 @@ class MapChart {
 
     const that = this;
     this.geoData = geoData;
+    this.darkGrey = 'rgb(127, 127, 127)';
+    this.tooltipPadding = '15px';
 
     this.inputYear = d3.select(mapChartDivClass).append('select');
     this.inputYear.attr('id', 'mapchart-year-selection');
@@ -25,9 +27,6 @@ class MapChart {
         selCrime = selCrime.options[selCrime.selectedIndex].value;
         that.filter(dataAsJSON, selYear, selCrime);
       });
-
-    this.darkGrey = 'rgb(127, 127, 127)';
-    this.tooltipPadding = '15px';
 
     // D3 PROJECTION
     this.projection = d3.geoAlbersUsa()
@@ -140,27 +139,20 @@ class MapChart {
           }
         }
 
-        console.log("allValues befor");
-        console.log(allValues);
-
         // Get highest value
         allValues = allValues.sort((a, b) => a - b).reverse();
         let highestVal = allValues[0];
-
-        console.log("allValues after");
-        console.log(allValues);
 
         let opacityVal = 1;
         let value = 0;
 
         // Bind the data to the SVG and create one path per GeoJSON feature
-        
-        this.g.selectAll('path')
+        this.svg.selectAll('path')
           .data(json.features)
           .enter()
           .append('path')
-          .merge(this.g)
           .data(json.features)
+          .merge(this.svg.selectAll('path'))
           .attr('d', this.path)
           .style('stroke', this.darkGrey)
           .style('stroke-width', '1')
@@ -168,15 +160,9 @@ class MapChart {
           /**** DEFAULT FILL ****/
           .style('fill', (d) => {
 
-            console.log('inside fill')
-            console.log(d);
-
             // Get data value
             value = d.properties.value;
             opacityVal = 0.01 * ((value / highestVal) * 100);
-
-            console.log("VALUE (Default): ");
-            console.log(value);
 
             let blue = d3.rgb(31, 119, 180, opacityVal);
 
@@ -229,9 +215,6 @@ class MapChart {
                 value = d.properties.value;
                 opacityVal = 0.01 * ((value / highestVal) * 100);
 
-                console.log("VALUE (mouseout): ");
-                console.log(value);
-
                 let blue = d3.rgb(31, 119, 180, opacityVal);
 
                 if (value) {
@@ -248,8 +231,13 @@ class MapChart {
             d3.selectAll('.tooltip').transition()
               .duration(500)
               .style("opacity", '0');
-          });
-      });
+
+
+          })// END MOUSEOUT
+
+          .exit().remove();
+
+      });// END SVG
     });
 
 
@@ -258,7 +246,7 @@ class MapChart {
   filter(dataAsJSON, year, crime) {
 
 
-      this.render(dataAsJSON, year, crime);
+    this.render(dataAsJSON, year, crime);
   }
 }
 

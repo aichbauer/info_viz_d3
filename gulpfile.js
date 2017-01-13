@@ -81,7 +81,9 @@ gulp.task('jsTask',function () {
   })
   .transform(babelify)
   .bundle()
-  .on('error',console.error.bind(console))
+  .on('error', function(err){
+        console.log(err.message);
+    })
   .pipe(source('bundle.js'))
   .pipe(gulp.dest('./dist/assets/js'));
     

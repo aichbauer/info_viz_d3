@@ -10,25 +10,6 @@ class BarChart {
 
     const that = this;
 
-    this.inputYear = d3.select(barchartDivClass).append('select');
-      this.inputYear.attr('id', 'barchart-year-selection');
-      this.inputCrime = d3.select(barchartDivClass).append('select');
-      this.inputCrime.attr('id', 'barchart-crime-selection');
-
-      this.button = d3.select(barchartDivClass).append('button');
-      this.button.html('Click me');
-      this.button
-        .on('click', function (event) {
-          
-          d3.event.preventDefault();
-          var selYear = document.getElementById('barchart-year-selection');
-          selYear = selYear.options[selYear.selectedIndex].value;
-          var selCrime = document.getElementById('barchart-crime-selection');
-          selCrime = selCrime.options[selCrime.selectedIndex].value;
-          that.filter(dataAsJSON, selYear, selCrime);
-
-        });
-
     this.margin = margin;
 
     this.width = width - margin.left - margin.right;
@@ -53,23 +34,6 @@ class BarChart {
 
     d3.json(dataAsJSON, (error, json) => {
       this.data = json;
-
-      let years = Object.keys(this.data[0].crimes.years);
-      for (let i of years) {
-
-        let option = this.inputYear.append('option');
-        option.html(i);
-        option.attr('value', i);
-
-      }
-      let crimes = Object.keys(this.data[0].crimes.years['2009']);
-      for (let i of crimes) {
-
-        let option = this.inputCrime.append('option');
-        option.html(i);
-        option.attr('value', i);
-
-      }
       this.render(this.data);
     });
 

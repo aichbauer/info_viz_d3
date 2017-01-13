@@ -10,24 +10,8 @@ class MapChart {
     this.darkGrey = 'rgb(127, 127, 127)';
     this.lightGrey = 'rgb(199, 199, 199)';
     this.tooltipPadding = '15px';
-
-    this.inputYear = d3.select(mapChartDivClass).append('select');
-    this.inputYear.attr('id', 'mapchart-year-selection');
-    this.inputCrime = d3.select(mapChartDivClass).append('select');
-    this.inputCrime.attr('id', 'mapchart-crime-selection');
-
-    this.button = d3.select(mapChartDivClass).append('button');
-    this.button.html('Click me');
-    this.button
-      .on('click', function (event) {
-
-        d3.event.preventDefault();
-        var selYear = document.getElementById('mapchart-year-selection');
-        selYear = selYear.options[selYear.selectedIndex].value;
-        var selCrime = document.getElementById('mapchart-crime-selection');
-        selCrime = selCrime.options[selCrime.selectedIndex].value;
-        that.filter(dataAsJSON, selYear, selCrime);
-      });
+    const washingtonDCWidth = '50px';
+    const washingtonDCHeight = '50px';
 
     // D3 PROJECTION
     this.projection = d3.geoAlbersUsa()
@@ -36,13 +20,11 @@ class MapChart {
       // scale things down so see entire US
       .scale([1000]);
 
-
     // DEFINE PATH GENERATOR
     // path generator that will convert GeoJSON to SVG paths
     this.path = d3.geoPath()
       // tell path generator to use albersUsa projection
       .projection(this.projection);
-
 
     this.margin = margin;
 
@@ -68,29 +50,7 @@ class MapChart {
       .style('font-family', 'sans-serif')
       .style('padding', this.tooltipPadding);
 
-
-    d3.json(dataAsJSON, (error, json) => {
-      this.data = json;
-
-      let years = Object.keys(this.data[0].crimes.years);
-      for (let i of years) {
-
-        let option = this.inputYear.append('option');
-        option.html(i);
-        option.attr('value', i);
-
-      }
-      let crimes = Object.keys(this.data[0].crimes.years['2009']);
-
-      for (let i of crimes) {
-
-        let option = this.inputCrime.append('option');
-        option.html(i);
-        option.attr('value', i);
-
-      }
-      this.render(dataAsJSON);
-    });
+    this.render(dataAsJSON);
   }
 
   mapFillCol(crimeName, alphaVal) {
@@ -156,6 +116,7 @@ class MapChart {
     d3.json(new_data, (data) => {
 
       let allValues = [];
+      let dc = {};
 
       // Load GeoJSON data and merge with states data
       d3.json(this.geoData, (json) => {
@@ -174,7 +135,6 @@ class MapChart {
           /* We need to determine which state has the highest value
           * and then adjust the fill-opacity accordingly */
           allValues.push(dataValue);
-
 
           // Find the corresponding state inside the GeoJSON
           for (var j = 0; j < json.features.length; j++) {
@@ -200,6 +160,8 @@ class MapChart {
         let opacityVal = 1;
         let value = 0;
 
+        let fillCol = 0;
+
         // Bind the data to the SVG and create one path per GeoJSON feature
         this.svg.selectAll('path')
           .data(json.features)
@@ -223,7 +185,7 @@ class MapChart {
               opacityVal += 0.2;
             }
 
-            let fillCol = that.mapFillCol(crime, opacityVal);
+            fillCol = that.mapFillCol(crime, opacityVal);
 
             if (value) {
               // If value exists…
@@ -233,6 +195,9 @@ class MapChart {
               return 'rgb(213,222,217)';
             }
           })
+
+          // d3.selectAll('.washington-dc').style('fill', '')
+
           /**** ON-CLICK ****/
           .on('click', function (d) {
             console.log(d.properties.code);
@@ -277,7 +242,7 @@ class MapChart {
                   opacityVal += 0.2;
                 }
 
-                let fillCol = that.mapFillCol(crime, opacityVal);
+                fillCol = that.mapFillCol(crime, opacityVal);
 
                 if (value) {
                   // If value exists…
@@ -288,26 +253,20 @@ class MapChart {
                 }
               });
 
-
-
             d3.selectAll('.tooltip').transition()
               .duration(500)
               .style("opacity", '0');
-
 
           })// END MOUSEOUT
 
           .exit().remove();
 
-      });// END SVG
-    });
+      });// LOAD GEO DATA
+    }); // END LOAD STATE DATA
 
-
-  }
+  } // END RENDER
 
   filter(dataAsJSON, year, crime) {
-
-
     this.render(dataAsJSON, year, crime);
   }
 }

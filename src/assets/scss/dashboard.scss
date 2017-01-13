@@ -38,7 +38,6 @@ body {
 
   .wrapper-map-barchart {
     background: $map-barchart-bg-col;
-    overflow: scroll;
   }
 
   .wrapper-map {
@@ -46,10 +45,12 @@ body {
     height: 50vh;
     justify-content: center;
     min-height: $min-height-map;
+    overflow: scroll;
   }
 
   .wrapper-barchart {
     background: $barchart-bg-col;
+    overflow: scroll;
   }
 
   .svg-barchart{

@@ -1,6 +1,7 @@
-{
-      "CT": {
+[
+      {
             "location": "Connecticut",
+            "code": "CT",
             "crimes": {
                   "years": {
                         "2009": {
@@ -153,8 +154,9 @@
                   }
             }
       },
-      "ME": {
+      {
             "location": "Maine",
+            "code": "ME",
             "crimes": {
                   "years": {
                         "2009": {
@@ -307,8 +309,9 @@
                   }
             }
       },
-      "MA": {
+      {
             "location": "Massachusetts",
+            "code": "MA",
             "crimes": {
                   "years": {
                         "2009": {
@@ -461,8 +464,9 @@
                   }
             }
       },
-      "NH": {
+      {
             "location": "New Hampshire",
+            "code": "NH",
             "crimes": {
                   "years": {
                         "2009": {
@@ -615,8 +619,9 @@
                   }
             }
       },
-      "RI": {
+      {
             "location": "Rhode Island",
+            "code": "RI",
             "crimes": {
                   "years": {
                         "2009": {
@@ -769,8 +774,9 @@
                   }
             }
       },
-      "VT": {
+      {
             "location": "Vermont",
+            "code": "VT",
             "crimes": {
                   "years": {
                         "2009": {
@@ -923,8 +929,9 @@
                   }
             }
       },
-      "NJ": {
+      {
             "location": "New Jersey",
+            "code": "NJ",
             "crimes": {
                   "years": {
                         "2009": {
@@ -1077,8 +1084,9 @@
                   }
             }
       },
-      "NY": {
+      {
             "location": "New York",
+            "code": "NY",
             "crimes": {
                   "years": {
                         "2009": {
@@ -1231,8 +1239,9 @@
                   }
             }
       },
-      "PA": {
+      {
             "location": "Pennsylvania",
+            "code": "PA",
             "crimes": {
                   "years": {
                         "2009": {
@@ -1385,8 +1394,9 @@
                   }
             }
       },
-      "IL": {
+      {
             "location": "Illinois",
+            "code": "IL",
             "crimes": {
                   "years": {
                         "2009": {
@@ -1539,8 +1549,9 @@
                   }
             }
       },
-      "IN": {
+      {
             "location": "Indiana",
+            "code": "IN",
             "crimes": {
                   "years": {
                         "2009": {
@@ -1693,8 +1704,9 @@
                   }
             }
       },
-      "MI": {
+      {
             "location": "Michigan",
+            "code": "MI",
             "crimes": {
                   "years": {
                         "2009": {
@@ -1848,8 +1860,9 @@
                   }
             }
       },
-      "OH": {
+      {
             "location": "Ohio",
+            "code": "OH",
             "crimes": {
                   "years": {
                         "2009": {
@@ -2002,8 +2015,9 @@
                   }
             }
       },
-      "WI": {
+      {
             "location": "Wisconsin",
+            "code": "WI",
             "crimes": {
                   "years": {
                         "2009": {
@@ -2156,8 +2170,9 @@
                   }
             }
       },
-      "IA": {
+      {
             "location": "Iowa",
+            "code": "IA",
             "crimes": {
                   "years": {
                         "2009": {
@@ -2310,8 +2325,9 @@
                   }
             }
       },
-      "KS": {
+      {
             "location": "Kansas",
+            "code": "KS",
             "crimes": {
                   "years": {
                         "2009": {
@@ -2464,8 +2480,9 @@
                   }
             }
       },
-      "MN": {
+      {
             "location": "Minnesota",
+            "code": "MN",
             "crimes": {
                   "years": {
                         "2009": {
@@ -2618,8 +2635,9 @@
                   }
             }
       },
-      "MO": {
+      {
             "location": "Missouri",
+            "code": "MO",
             "crimes": {
                   "years": {
                         "2009": {
@@ -2772,8 +2790,9 @@
                   }
             }
       },
-      "NE": {
+      {
             "location": "Nebraska",
+            "code": "NE",
             "crimes": {
                   "years": {
                         "2009": {
@@ -2926,8 +2945,9 @@
                   }
             }
       },
-      "ND": {
+      {
             "location": "North Dakota",
+            "code": "ND",
             "crimes": {
                   "years": {
                         "2009": {
@@ -3080,8 +3100,9 @@
                   }
             }
       },
-      "SD": {
+      {
             "location": "South Dakota",
+            "code": "SD",
             "crimes": {
                   "years": {
                         "2009": {
@@ -3234,8 +3255,9 @@
                   }
             }
       },
-      "DE": {
+      {
             "location": "Delaware",
+            "code": "DE",
             "crimes": {
                   "years": {
                         "2009": {
@@ -3388,8 +3410,9 @@
                   }
             }
       },
-      "DC": {
+      {
             "location": "District of Columbia",
+            "code": "DC",
             "crimes": {
                   "years": {
                         "2009": {
@@ -3542,8 +3565,9 @@
                   }
             }
       },
-      "FL": {
+      {
             "location": "Florida",
+            "code": "FL",
             "crimes": {
                   "years": {
                         "2009": {
@@ -3698,9 +3722,10 @@
                   }
             }
       },
-      "GA": {
+      {
             "location": "Georgia",
-            "crime": {
+            "code": "GA",
+            "crimes": {
                   "years": {
                         "2009": {
                               "Population": 9829211,
@@ -3852,8 +3877,9 @@
                   }
             }
       },
-      "MD": {
+      {
             "location": "Maryland",
+            "code": "MD",
             "crimes": {
                   "years": {
                         "2009": {
@@ -4006,8 +4032,9 @@
                   }
             }
       },
-      "NC": {
+      {
             "location": "North Carolina",
+            "code": "NC",
             "crimes": {
                   "years": {
                         "2009": {
@@ -4160,8 +4187,9 @@
                   }
             }
       },
-      "SC": {
+      {
             "location": "South Carolina",
+            "code": "SC",
             "crimes": {
                   "years": {
                         "2009": {
@@ -4314,8 +4342,9 @@
                   }
             }
       },
-      "VA": {
+      {
             "location": "Virginia",
+            "code": "VA",
             "crimes": {
                   "years": {
                         "2009": {
@@ -4468,8 +4497,9 @@
                   }
             }
       },
-      "WV": {
+      {
             "location": "West Virginia",
+            "code": "WV",
             "crimes": {
                   "years": {
                         "2009": {
@@ -4622,8 +4652,9 @@
                   }
             }
       },
-      "AL": {
+      {
             "location": "Alabama",
+            "code": "AL",
             "crimes": {
                   "years": {
                         "2009": {
@@ -4776,8 +4807,9 @@
                   }
             }
       },
-      "KY": {
+      {
             "location": "Kentucky",
+            "code": "KY",
             "crimes": {
                   "years": {
                         "2009": {
@@ -4930,8 +4962,9 @@
                   }
             }
       },
-      "MS": {
+      {
             "location": "Mississippi",
+            "code": "MS",
             "crimes": {
                   "years": {
                         "2009": {
@@ -5084,8 +5117,9 @@
                   }
             }
       },
-      "TN": {
+      {
             "location": "Tennessee",
+            "code": "TN",
             "crimes": {
                   "years": {
                         "2009": {
@@ -5238,8 +5272,9 @@
                   }
             }
       },
-      "AR": {
+      {
             "location": "Arkansas",
+            "code": "AR",
             "crimes": {
                   "years": {
                         "2009": {
@@ -5392,8 +5427,9 @@
                   }
             }
       },
-      "LA": {
+      {
             "location": "Louisiana",
+            "code": "LA",
             "crimes": {
                   "years": {
                         "2009": {
@@ -5546,8 +5582,9 @@
                   }
             }
       },
-      "OK": {
+      {
             "location": "Oklahoma",
+            "code": "OK",
             "crimes": {
                   "years": {
                         "2009": {
@@ -5700,8 +5737,9 @@
                   }
             }
       },
-      "TX": {
+      {
             "location": "Texas",
+            "code": "TX",
             "crimes": {
                   "years": {
                         "2009": {
@@ -5854,8 +5892,9 @@
                   }
             }
       },
-      "AZ": {
+      {
             "location": "Arizona",
+            "code": "AZ",
             "crimes": {
                   "years": {
                         "2009": {
@@ -6008,8 +6047,9 @@
                   }
             }
       },
-      "CO": {
+      {
             "location": "Colorado",
+            "code": "CO",
             "crimes": {
                   "years": {
                         "2009": {
@@ -6162,8 +6202,9 @@
                   }
             }
       },
-      "ID": {
+      {
             "location": "Idaho",
+            "code": "ID",
             "crimes": {
                   "years": {
                         "2009": {
@@ -6316,8 +6357,9 @@
                   }
             }
       },
-      "MT": {
+      {
             "location": "Montana",
+            "code": "MT",
             "crimes": {
                   "years": {
                         "2009": {
@@ -6470,8 +6512,9 @@
                   }
             }
       },
-      "NV": {
+      {
             "location": "Nevada",
+            "code": "NV",
             "crimes": {
                   "years": {
                         "2009": {
@@ -6624,8 +6667,9 @@
                   }
             }
       },
-      "NM": {
+      {
             "location": "New Mexico",
+            "code": "NM",
             "crimes": {
                   "years": {
                         "2009": {
@@ -6778,8 +6822,9 @@
                   }
             }
       },
-      "UT": {
+      {
             "location": "Utah",
+            "code": "UT",
             "crimes": {
                   "years": {
                         "2009": {
@@ -6932,8 +6977,9 @@
                   }
             }
       },
-      "WY": {
+      {
             "location": "Wyoming",
+            "code": "WY",
             "crimes": {
                   "years": {
                         "2009": {
@@ -7086,8 +7132,9 @@
                   }
             }
       },
-      "AK": {
+      {
             "location": "Alaska",
+            "code": "AK",
             "crimes": {
                   "years": {
                         "2009": {
@@ -7240,8 +7287,9 @@
                   }
             }
       },
-      "CA": {
+      {
             "location": "California",
+            "code": "CA",
             "crimes": {
                   "years": {
                         "2009": {
@@ -7394,8 +7442,9 @@
                   }
             }
       },
-      "HI": {
+      {
             "location": "Hawaii",
+            "code": "HI",
             "crimes": {
                   "years": {
                         "2009": {
@@ -7548,8 +7597,9 @@
                   }
             }
       },
-      "OR": {
+      {
             "location": "Oregon",
+            "code": "OR",
             "crimes": {
                   "years": {
                         "2009": {
@@ -7702,8 +7752,9 @@
                   }
             }
       },
-      "WA": {
+      {
             "location": "Washington",
+            "code": "WA",
             "crimes": {
                   "years": {
                         "2009": {
@@ -7856,4 +7907,4 @@
                   }
             }
       }
-}
+]

@@ -22,6 +22,8 @@ class LineChart {
 
   render(new_data, loc = 'New York', valueRate = 'rate') {
 
+    const that = this;
+
     let crimesArray = Object.keys(new_data[0].crimes.years['2009']);
     crimesArray.shift();
 
@@ -136,7 +138,7 @@ class LineChart {
         .attr('d', lineGen(dataGroup[i].values))
         .attr('stroke', function (d, j) {
 
-          return "hsl(" + Math.random() * 360 + ",100%,50%)";
+          return that.lineFillCol(dataGroup[i].key, 1);
 
         })
         .attr('stroke-width', 2)
@@ -145,8 +147,37 @@ class LineChart {
 
     }
 
+    let legend = d3.select(this.div)
+    .append('div')
+    .style('display', 'flex')
+    .style('align-items', 'center')
+    .style('justify-content', 'flex-start')
+    .style('flex-direction', 'row')
+    .style('flex-wrap', 'wrap')
+    .style('flex-flow', 'row wrap')
+    .style('align-content', 'flex-end');
+
     for (let i in dataGroup){
       console.log(dataGroup[i].key);
+
+      console.log(document.getElementById('line_' + dataGroup[i].key).getAttribute('stroke'));
+
+      let legendColor = document.getElementById('line_' + dataGroup[i].key).getAttribute('stroke');
+
+      let legendpart = legend.append('div')
+
+      let inner = legendpart.append('div');
+      inner.append('div')
+      .style('background', legendColor)
+      .style('width', 10)
+      .style('height', 10)
+      inner.append('div')
+      .text(dataGroup[i].key);
+
+      //legendpart.text(dataGroup[i].key);
+
+        
+
     }
 
 
@@ -160,7 +191,61 @@ filter() {
 
 }
 
+
+lineFillCol(crimeName, alphaVal) {
+
+    let fillCol;
+
+    switch (crimeName) {
+      case 'Population':
+        fillCol = d3.rgb(31, 119, 180, alphaVal);
+        break;
+      case 'Violent.crime.number':
+      case 'Violent.crime.number.rate':
+        fillCol = d3.rgb(148, 103, 189, alphaVal);
+        break;
+      case 'Murder.and.nonnegligent.manslaughter':
+      case 'Murder.and.nonnegligent.manslaughter.rate':
+        fillCol = d3.rgb(214, 39, 40, alphaVal);
+        break;
+      case 'Rape':
+      case 'Rape.rate':
+        fillCol = d3.rgb(255, 127, 14, alphaVal);
+        break;
+      case 'Robbery':
+      case 'Robbery.rate':
+        fillCol = d3.rgb(44, 160, 44, alphaVal);
+        break;
+      case 'Aggravated.assault':
+      case 'Aggravated.assault.rate':
+        fillCol = d3.rgb(140, 86, 75, alphaVal);
+        break;
+      case 'Property.crime':
+      case 'Property.crime.rate':
+        fillCol = d3.rgb(188, 189, 34, alphaVal);
+        break;
+      case 'Burglary':
+      case 'Burglary.rate':
+        fillCol = d3.rgb(23, 190, 207, alphaVal);
+        break;
+      case 'Larceny.theft':
+      case 'Larceny.theft.rate':
+        fillCol = d3.rgb(227, 119, 194, alphaVal);
+        break;
+      case 'Motor.vehicle.theft':
+      case 'Motor.vehicle.theft.rate':
+        fillCol = d3.rgb(102, 170, 0, alphaVal);
+        break;
+      default:
+        break;
+    }
+
+    return fillCol;
+  }
+
 }
+
+
 
 
 export { LineChart as default };

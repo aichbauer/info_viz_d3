@@ -38,7 +38,7 @@
     ]
   },
   "dependencies": {
-    "d3": "^4.4.0",
-    "materialize-css": "^0.97.8"
+    "bootstrap": "^3.3.7",
+    "d3": "^4.4.0"
   }
 }

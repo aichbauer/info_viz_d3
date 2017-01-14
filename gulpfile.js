@@ -12,10 +12,10 @@ var ipath = require('get-installed-path');
 var copy = require('copy');
 
 
-gulp.task('default', ['htmlTask', 'sassTask', 'jsTask', 'dataTask', 'materializeTask']);
+gulp.task('default', ['htmlTask', 'sassTask', 'jsTask', 'dataTask', 'bootstrapTask']);
 
 
-gulp.task('serve', ['htmlTask', 'sassTask', 'jsTask', 'dataTask', 'materializeTask'], function () {
+gulp.task('serve', ['htmlTask', 'sassTask', 'jsTask', 'dataTask', 'bootstrapTask'], function () {
 
 
   gulp.src('./dist')
@@ -79,21 +79,21 @@ gulp.task('jsTask', function () {
     .pipe(gulp.dest('./dist/assets/js'));
 });
 
-gulp.task('materializeTask', function () {
+gulp.task('bootstrapTask', function () {
 
 
-  ipath('materialize-css', {
+  ipath('bootstrap', {
     local: true
   }).then((path) => {
     console.log(path)
 
-    gulp.src(path+'/dist/css/materialize.min.css')
+    gulp.src(path+'/dist/css/bootstrap.min.css')
     .pipe(gulp.dest('./dist/assets/css/'))
     .on('error', handleError);
-    gulp.src(path+'/dist/fonts/roboto/**.*')
-    .pipe(gulp.dest('./dist/assets/fonts/roboto/'))
+    gulp.src(path+'/dist/fonts/**.*')
+    .pipe(gulp.dest('./dist/assets/fonts/'))
     .on('error', handleError);
-    gulp.src(path+'/dist/js/materialize.min.js')
+    gulp.src(path+'/dist/js/bootstrap.min.js')
     .pipe(gulp.dest('./dist/assets/js/'))
     .on('error', handleError);
 

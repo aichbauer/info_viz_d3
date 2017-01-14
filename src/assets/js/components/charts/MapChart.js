@@ -4,16 +4,28 @@ import LineChart from './LineChart';
 
 class MapChart {
 
+  /**
+   * 
+   * 
+   * Constructor, gets class variables in initial state and calls render function
+   * @param {Object} margin - e.g. { top: 40, bottom: 10, left: 120, right: 20 }
+   * @param {Number} width - e.g. 100
+   * @param {Number} height - e.g. 200
+   * @param {String} barchartDivClass - e.g .myExampleMapWrapperDiv
+   * @param {String} dataAsJSON - e.g ./the/path/to/my/json/file.json
+   * @param {String} geoData - e.g ./the/path/to/my/geoData/file.json (= long and lat for usa)
+   * 
+   */
   constructor(margin, width, height, mapChartDivClass, dataAsJSON, geoData) {
 
+    // bind this to that
     const that = this;
 
+    // initialize class variables
     this.margin = margin;
     this.width = width - margin.left - margin.right;
     this.height = height - margin.top - margin.bottom;
-
     this.geoData = geoData;
-
     this.darkGrey = 'rgb(127, 127, 127)';
   
     // D3 PROJECTION
@@ -42,69 +54,103 @@ class MapChart {
       .attr('class', 'tooltip');
 
     this.render(dataAsJSON);
+
   }
 
+
+  /**
+   * 
+   * 
+   * fill color for our bars returns different color for different crime
+   * @param {String} crimeName - e.g. Violent.crime.number
+   * @param {Number} alphaVal - e.g. 0.2 (= int between 0 and 1)
+   * @returns {Object} The rgba value for the specified crimeName
+   * 
+   */
   mapFillCol(crimeName, alphaVal) {
 
     let fillCol;
 
     switch (crimeName) {
+
       case 'Population':
         // lightblue
         fillCol = d3.rgb(31, 119, 180, alphaVal);
         break;
+
       case 'Violent.crime.number':
       case 'Violent.crime.number.rate':
         // lightpurple
         fillCol = d3.rgb(148, 103, 189, alphaVal);
         break;
+
       case 'Murder.and.nonnegligent.manslaughter':
       case 'Murder.and.nonnegligent.manslaughter.rate':
         // red
         fillCol = d3.rgb(214, 39, 40, alphaVal);
         break;
+
       case 'Rape':
       case 'Rape.rate':
         // orange
         fillCol = d3.rgb(255, 127, 14, alphaVal);
         break;
+
       case 'Robbery':
       case 'Robbery.rate':
         // dark-green
         fillCol = d3.rgb(44, 160, 44, alphaVal);
         break;
+
       case 'Aggravated.assault':
       case 'Aggravated.assault.rate':
         // brown
         fillCol = d3.rgb(140, 86, 75, alphaVal);
         break;
+
       case 'Property.crime':
       case 'Property.crime.rate':
         // yellow-brown
         fillCol = d3.rgb(188, 189, 34, alphaVal);
         break;
+
       case 'Burglary':
       case 'Burglary.rate':
         // turquoise
         fillCol = d3.rgb(23, 190, 207, alphaVal);
         break;
+
       case 'Larceny.theft':
       case 'Larceny.theft.rate':
         // light-pink
         fillCol = d3.rgb(227, 119, 194, alphaVal);
         break;
+
       case 'Motor.vehicle.theft':
       case 'Motor.vehicle.theft.rate':
         // light-green
         fillCol = d3.rgb(102, 170, 0, alphaVal);
         break;
+
       default:
         break;
+
     }
 
     return fillCol;
+
   }
 
+
+  /**
+   * 
+   * 
+   * Creates a svg barchart with current data input, sorted asc or desc
+   * @param {Object} new_data - e.g. {json: file}
+   * @param {Number} year - e.g. 2015
+   * @param {String} crime - e.g. Violent.crime.number
+   * 
+   */
   render(new_data, year = '2015', crime = 'Murder.and.nonnegligent.manslaughter') {
 
     const that = this;
@@ -212,6 +258,7 @@ class MapChart {
             new LineChart({ top: 40, bottom: 10, left: 120, right: 20 }, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json', d.properties.location, document.querySelector('input[name="valueRate"]:checked').value);
 
           })
+
           /**** MOUSEOVER ****/
           .on('mouseover', function (d) {
 
@@ -230,6 +277,7 @@ class MapChart {
               '<br/>' + 'Value: ' + d.properties.value)
               .style('left', (d3.event.pageX) + 'px')
               .style('top', (d3.event.pageY + 50) + 'px');
+
           })
 
           /**** MOUSEOUT ****/
@@ -247,13 +295,27 @@ class MapChart {
           .exit().remove(); // END SVG
 
       });// END LOAD GEO DATA
+
     }); // END LOAD STATE DATA
 
   } // END RENDER
 
+
+  /**
+   * 
+   * 
+   * Calls the render function with new data
+   * @param {Object} dataAsJSON - e.g. {json: file}
+   * @param {Number} year - e.g. 2015
+   * @param {String} crime - e.g. Violent.crime.number
+   * 
+   */
   filter(dataAsJSON, year, crime) {
+
     this.render(dataAsJSON, year, crime);
+
   }
+
 }
 
 // exporting our class as default so that we can import it in our app... ### ./src/assets/js/index.js ###

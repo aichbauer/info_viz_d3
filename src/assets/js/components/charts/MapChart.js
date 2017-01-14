@@ -173,7 +173,7 @@ class MapChart {
           .style('stroke', this.darkGrey)
           .attr('class', 'unclicked')
           .style('stroke-width', '1')
-        
+
           /**** DEFAULT FILL ****/
           .style('fill', function (d) {
 

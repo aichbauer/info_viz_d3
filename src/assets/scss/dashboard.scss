@@ -125,7 +125,27 @@ body {
   }
 
   .wrapper-graph {
+    margin-top: 50px;
     background: $white;
     height: 40vh;
+    overflow: hidden;
+
+    .legend {
+      margin: 0 auto;
+    }
+
+    .legendPart,
+    .legendPart-bg,
+    .legendPart-text {
+      float: left;
+    }
+
+    .legendPart-bg {
+      margin: 8 5 0 0;
+    }
+
+    .legendPart {
+      padding: 10px;
+    }
   }
 }

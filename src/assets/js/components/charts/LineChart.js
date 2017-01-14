@@ -148,47 +148,33 @@ class LineChart {
     }
 
     let legend = d3.select(this.div)
-    .append('div')
-    .style('display', 'flex')
-    .style('align-items', 'center')
-    .style('justify-content', 'flex-start')
-    .style('flex-direction', 'row')
-    .style('flex-wrap', 'wrap')
-    .style('flex-flow', 'row wrap')
-    .style('align-content', 'flex-end');
+      .append('div')
+      .attr('class', 'legend');
 
-    for (let i in dataGroup){
+    for (let i in dataGroup) {
 
       let legendColor = document.getElementById('line_' + dataGroup[i].key).getAttribute('stroke');
-      let legendpart = legend.append('div');
+      let legendPart = legend.append('div')
+        .attr('class', 'legendPart');
 
-      let inner = legendpart.append('div');
-      inner.append('div')
-      .style('background', legendColor)
-      .style('width', 10)
-      .style('height', 10)
-      inner.append('div')
-      .text(dataGroup[i].key);
+      let inner = legendPart.append('div')
+        .attr('class', 'legendPart-bg')
+        .style('background', legendColor)
+        .style('width', 10)
+        .style('height', 10);
 
-      //legendpart.text(dataGroup[i].key);
-
-        
-
+      legendPart.append('div')
+        .attr('class', 'legendPart-text')
+        .text(dataGroup[i].key);
     }
+  }
 
-
-       
+  filter() {
 
   }
 
 
-
-filter() {
-
-}
-
-
-lineFillCol(crimeName, alphaVal) {
+  lineFillCol(crimeName, alphaVal) {
 
     let fillCol;
 

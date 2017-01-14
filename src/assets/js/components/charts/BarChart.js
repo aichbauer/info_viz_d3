@@ -6,15 +6,15 @@ import LineChart from './LineChart';
 class BarChart {
 
   /**
-   * 
-   * 
+   *
+   *
    * Constructor, gets class variables in initial state and calls render function
    * @param {Object} margin - e.g. { top: 40, bottom: 10, left: 120, right: 20 }
    * @param {Number} width - e.g. 100
    * @param {Number} height - e.g. 200
    * @param {String} barchartDivClass - e.g .myExampleBarChartDiv
    * @param {String} dataAsJSON - e.g ./the/path/to/my/json/file.json
-   * 
+   *
    */
   constructor(margin, width, height, barchartDivClass, dataAsJSON) {
 
@@ -34,8 +34,12 @@ class BarChart {
     // radio wrapper
     this.wrapperRadio = d3.select(barchartDivClass).append('div')
       .attr('class', 'wrapperRadio');
+    // RADIO BUTTONS
+    this.wrapperRadioBar = d3.select(barchartDivClass).append('div')
+      .attr('class', 'wrapperRadioBar');
 
-    // controll wrapper 
+    this.controlStacked = this.wrapperRadioBar.append('div')
+    // controll wrapper
     this.controlStacked = this.wrapperRadio.append('div')
       .attr('class', 'custom-controls-stacked');
 
@@ -53,7 +57,8 @@ class BarChart {
       .attr('id', 'desc')
       .attr('type', 'radio')
       .attr('value', 'desc')
-      .attr('name', 'sortStyle');
+      .attr('name', 'sortStyle')
+      .property('checked', 'checked');
 
     // span for indicator (= second ring around radiobtn)
     this.customRadio1.append('span')
@@ -62,7 +67,7 @@ class BarChart {
     // description for the radiobtn
     this.customRadio1.append('span')
       .attr('class', 'custom-control-description description')
-      .text('rate');
+      .text('sort descending');
 
     // the real radio button input for asc order checked by default
     this.radioValueAsc = this.customRadio2.append('input')
@@ -70,8 +75,7 @@ class BarChart {
       .attr('id', 'asc')
       .attr('type', 'radio')
       .attr('value', 'asc')
-      .attr('name', 'sortStyle')
-      .property('checked', 'checked');
+      .attr('name', 'sortStyle');
 
     // span for indicator (= second ring around radiobtn)
     this.customRadio2.append('span')
@@ -80,7 +84,7 @@ class BarChart {
     // description for the radiobtn
     this.customRadio2.append('span')
       .attr('class', 'custom-control-description description')
-      .text('absolute');
+      .text('sort ascending');
 
     // click function for asc order (= filter data and reorder bars on chart)
     this.radioValueAsc
@@ -126,7 +130,7 @@ class BarChart {
       .attr('transform', `translate(${margin.left},${margin.top})`);
     // SVG END
 
-    // SCALE AND AXIS START 
+    // SCALE AND AXIS START
     // create the scale
     this.xscale = d3.scaleLinear().range([0, this.width]);
     this.yscale = d3.scaleBand().rangeRound([0, this.height]).paddingInner(0.1);
@@ -151,13 +155,13 @@ class BarChart {
 
 
   /**
-   * 
-   * 
+   *
+   *
    * fill color for our bars returns different color for different crime
    * @param {String} crimeName - e.g. Violent.crime.number
    * @param {Number} alphaVal - e.g. 0.2 (= int between 0 and 1)
    * @returns {Object} The rgba value for the specified crimeName
-   * 
+   *
    */
   barFillCol(crimeName, alphaVal) {
 
@@ -225,14 +229,14 @@ class BarChart {
 
 
   /**
-   * 
-   * 
+   *
+   *
    * Function creates a sorted array, desc or asc
    * fill color for our bars returns different color for different crime
    * @param {Object} data - e.g. {json: file}
    * @param {String} crime - e.g. Violent.crime.number
    * @param {Number} year - e.g. 2015
-   * 
+   *
    */
   sortDataByValue(data, crime, year) {
     let swapped;
@@ -259,14 +263,14 @@ class BarChart {
 
 
   /**
-   * 
-   * 
+   *
+   *
    * Creates a svg barchart with current data input, sorted asc or desc
    * @param {Object} new_data - e.g. {json: file}
    * @param {Number} year - e.g. 2015
    * @param {String} crime - e.g. Violent.crime.number
    * @param {String} order - e.g. desc or asc;
-   * 
+   *
    */
   render(new_data, year = '2015', crime = 'Murder.and.nonnegligent.manslaughter', order) {
 
@@ -274,7 +278,7 @@ class BarChart {
     order = document.querySelector('input[name="sortStyle"]:checked').value;
 
     // SORT OR DATA START
-    // sorts asc 
+    // sorts asc
     this.sortDataByValue(new_data, year, crime);
 
     // if its desc sort the data we got from `sortDataByValue` desc
@@ -324,7 +328,8 @@ class BarChart {
     // ENTER + UPDATE
     // both old and new elemente
     rect.merge(rect_enter).transition()
-      .attr('class', 'barchart-rect')
+      .attr('class', 'barchart-rect unclickedBar')
+      .style('stroke', '7f7f7f')
       .attr('height', this.yscale.bandwidth() - 5)
       .attr('width', (d) => this.xscale(d['crimes']['years'][year][crime]))
       .attr('y', (d) => this.yscale(d.location))
@@ -338,7 +343,7 @@ class BarChart {
         return d3.rgb(fillCol);
 
       });
-    
+
     // mouse events
     rect.merge(rect_enter)
       // MOUSEOVER START
@@ -347,6 +352,7 @@ class BarChart {
         // Change fill-col and stroke-width
         d3.select(this)
           .style('cursor', 'pointer')
+          .style('stroke', '#002675')
           .style('stroke-width', '3');
 
         // Add Tooltip
@@ -367,8 +373,9 @@ class BarChart {
 
         // if its unlicked the stroke should change from hovered (= 5) to not hovered (= 1)
         d3.selectAll('.unclickedBar')
+          .style('stroke', '7f7f7f')
           .style('stroke-width', '1');
-        
+
         // make the tooltip invisible
         d3.selectAll('.tooltipBar').transition()
           .duration(500)
@@ -380,6 +387,7 @@ class BarChart {
         // make all clicked bars unclicked and set stroke back from 5 to 1
         d3.selectAll('.clickedBar')
           .attr('class', 'unclickedBar')
+          .style('stroke', '7f7f7f')
           .style('stroke-width', '1');
 
         // make this element clicked and set stroke to 5
@@ -408,14 +416,14 @@ class BarChart {
   }
 
   /**
-   * 
-   * 
+   *
+   *
    * Calls the render function with new data
    * @param {Object} dataAsJSON - e.g. {json: file}
    * @param {Number} year - e.g. 2015
    * @param {String} crime - e.g. Violent.crime.number
    * @param {String} order - e.g. desc or asc;
-   * 
+   *
    */
   filter(dataAsJSON, year, crime, order) {
 

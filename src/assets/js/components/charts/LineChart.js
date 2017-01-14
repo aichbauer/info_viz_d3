@@ -4,8 +4,8 @@ import * as d3 from 'd3';
 class LineChart {
 
   /**
-   * 
-   * 
+   *
+   *
    * Constructor, gets class variables in initial state and calls render function
    * @param {Object} margin - e.g. { top: 40, bottom: 10, left: 120, right: 20 }
    * @param {Number} width - e.g. 100
@@ -14,7 +14,7 @@ class LineChart {
    * @param {String} dataAsJSON - e.g ./the/path/to/my/json/file.json
    * @param {String} location - e.g New York
    * @param {String} valueRate - e.g abs or rate
-   * 
+   *
    */
   constructor(margin, width, height, linechartDivClass, dataAsJSON, location, valueRate) {
 
@@ -36,17 +36,17 @@ class LineChart {
   }
 
   /**
-   * 
-   * 
+   *
+   *
    * Creates a Svg with a multilinechart of the current data passed to it
    * @param {Object} new_data - e.g. {json: file}
    * @param {String} loc - e.g. New York
    * @param {String} valueRate - e.g. abs or rate
-   * 
+   *
    */
   render(new_data, loc = '', valueRate = '') {
 
-    // bind this to that 
+    // bind this to that
     const that = this;
 
     // get an array of all crimes
@@ -110,9 +110,9 @@ class LineChart {
 
     // create the structure for multiline charts key is crime (nesting)
     let dataGroup = d3.nest()
-      .key(function (d) { 
+      .key(function (d) {
 
-        return d.crime; 
+        return d.crime;
 
       })
       .entries(newData);
@@ -151,7 +151,7 @@ class LineChart {
 
     let yAxis = d3.axisLeft()
       .scale(yScale)
-    
+
 
     // append a svg group to our svg
     // append x and y axis (call)
@@ -167,7 +167,7 @@ class LineChart {
     // SCALE AND AXIS END
 
     // GENERATE LINES START
-    // function a line dependent on the curret data, binding x and y to the year and crimevalue 
+    // function a line dependent on the curret data, binding x and y to the year and crimevalue
     var lineGen = d3.line()
       .x(function (d) {
 
@@ -203,51 +203,49 @@ class LineChart {
     // CREATE THE LEGEND FOR LINE CHART START
     // append a div to our wrapper
     let legend = d3.select(this.div)
-    .append('div')
-    .style('display', 'flex')
-    .style('align-items', 'center')
-    .style('justify-content', 'flex-start')
-    .style('flex-direction', 'row')
-    .style('flex-wrap', 'wrap')
-    .style('flex-flow', 'row wrap')
-    .style('align-content', 'flex-end');
+      .append('div')
+      .attr('class', 'legend');
 
-    // for every crimeValue 
+    // for every crimeValue
     for (let i in dataGroup){
 
       // get the current stroke attr
       let legendColor = document.getElementById('line_' + dataGroup[i].key).getAttribute('stroke');
-
-      // append a div to a div thats appended to the div we appended to the wrapper
-      let legendpart = legend.append('div');
-      let inner = legendpart.append('div');
+      let legendPart = legend.append('div')
+        .attr('class', 'legendPart');
 
       // add background color for legend
-      inner.append('div')
-      .style('background', legendColor)
-      .style('width', 10)
-      .style('height', 10)
+      let inner = legendPart.append('div')
+        .attr('class', 'legendPart-bg')
+        .style('background', legendColor)
+        .style('width', 10)
+        .style('height', 10);
 
-      // add name of crime for legend
-      inner.append('div')
-      .text(dataGroup[i].key);
-      // CREATE THE LEGEND FOR LINE CHART END
-    
+      legendPart.append('div')
+        .attr('class', 'legendPart-text')
+        .text(dataGroup[i].key);
     }
 
   }
 
 
 /**
-   * 
-   * 
+   *
+   *
    * fill color for our bars returns different color for different crime
    * @param {String} crimeName - e.g. Violent.crime.number
    * @param {Number} alphaVal - e.g. 0.2 (= int between 0 and 1)
    * @returns {Object} The rgba value for the specified crimeName
-   * 
+   *
    */
 lineFillCol(crimeName, alphaVal) {
+
+  filter() {
+
+  }
+
+
+  lineFillCol(crimeName, alphaVal) {
 
     let fillCol;
 

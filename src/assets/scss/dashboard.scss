@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700');
 
-$font-stack: Lato, sans-serif;
+$font-stack: 'Roboto', sans-serif;
 $primary-color: #333;
 $menu-bar-bg-col: #002675;
-$tooltip-bg-col: #7f7f7f;
 $white: #fff;
 
 $min-height-map: 480px;
@@ -86,42 +85,67 @@ body {
 
   .wrapper-map-barchart {
     background: $white;
-  }
 
-  .wrapper-map {
-    background: $white;
-    height: 50vh;
-    justify-content: center;
-    min-height: $min-height-map;
-    overflow: scroll;
+    .wrapper-map {
+      background: $white;
+      height: 50vh;
+      justify-content: center;
+      min-height: $min-height-map;
+      overflow: scroll;
+    }
 
-    .tooltip {
-      background: $tooltip-bg-col;
+    .wrapper-barchart {
+      background: $white;
+      overflow: scroll;
+
+      .wrapperRadioBar {
+        margin: 10 0 0 10;
+      }
+    }
+
+    .tooltipMap,
+    .tooltipBar {
+      background: $menu-bar-bg-col;
       color: $white;
       opacity: 0;
       padding: $tooltap-padding;
       position: absolute;
     }
-  }
 
-  .wrapper-barchart {
-    background: $white;
-    overflow: scroll;
-  }
+    .svg-barchart {
+      background: $white;
+    }
 
-  .svg-barchart {
-    background: $white;
-  }
-
-  .wrapper-map,
-  .wrapper-barchart {
-    height: 50vh;
-    min-height: $min-height-map;
-    width: 50vw;
+    .wrapper-map,
+    .wrapper-barchart {
+      height: 50vh;
+      min-height: $min-height-map;
+      width: 50vw;
+    }
   }
 
   .wrapper-graph {
+    margin-top: 50px;
     background: $white;
     height: 40vh;
+    overflow: hidden;
+
+    .legend {
+      margin: 0 auto;
+    }
+
+    .legendPart,
+    .legendPart-bg,
+    .legendPart-text {
+      float: left;
+    }
+
+    .legendPart-bg {
+      margin: 8 5 0 0;
+    }
+
+    .legendPart {
+      padding: 10px;
+    }
   }
 }

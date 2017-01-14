@@ -5,8 +5,8 @@ import LineChart from './LineChart';
 class MapChart {
 
   /**
-   * 
-   * 
+   *
+   *
    * Constructor, gets class variables in initial state and calls render function
    * @param {Object} margin - e.g. { top: 40, bottom: 10, left: 120, right: 20 }
    * @param {Number} width - e.g. 100
@@ -14,7 +14,7 @@ class MapChart {
    * @param {String} barchartDivClass - e.g .myExampleMapWrapperDiv
    * @param {String} dataAsJSON - e.g ./the/path/to/my/json/file.json
    * @param {String} geoData - e.g ./the/path/to/my/geoData/file.json (= long and lat for usa)
-   * 
+   *
    */
   constructor(margin, width, height, mapChartDivClass, dataAsJSON, geoData) {
 
@@ -49,9 +49,9 @@ class MapChart {
     this.g = this.svg.append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // APPEND DIV FOR TOOLTIP TO SVG
+    // APPEND DIV FOR tooltipMap TO SVG
     this.div = d3.select(mapChartDivClass).append('div')
-      .attr('class', 'tooltip');
+      .attr('class', 'tooltipMap');
 
     this.render(dataAsJSON);
 
@@ -59,13 +59,13 @@ class MapChart {
 
 
   /**
-   * 
-   * 
+   *
+   *
    * fill color for our bars returns different color for different crime
    * @param {String} crimeName - e.g. Violent.crime.number
    * @param {Number} alphaVal - e.g. 0.2 (= int between 0 and 1)
    * @returns {Object} The rgba value for the specified crimeName
-   * 
+   *
    */
   mapFillCol(crimeName, alphaVal) {
 
@@ -143,13 +143,13 @@ class MapChart {
 
 
   /**
-   * 
-   * 
+   *
+   *
    * Creates a svg barchart with current data input, sorted asc or desc
    * @param {Object} new_data - e.g. {json: file}
    * @param {Number} year - e.g. 2015
    * @param {String} crime - e.g. Violent.crime.number
-   * 
+   *
    */
   render(new_data, year = '2015', crime = 'Murder.and.nonnegligent.manslaughter') {
 
@@ -216,7 +216,7 @@ class MapChart {
           .data(json.features)
           .merge(this.svg.selectAll('path'))
           .attr('d', this.path)
-          .style('stroke', this.darkGrey)
+          .style('stroke', '#7f7f7f')
           .attr('class', 'unclicked')
           .style('stroke-width', '1')
 
@@ -243,10 +243,12 @@ class MapChart {
 
             d3.selectAll('.clicked')
               .attr('class', 'unclicked')
+              .style('stroke', '#7f7f7f')
               .style('stroke-width', '1');
 
             d3.select(this)
               .attr('class', 'clicked')
+              .style('stroke', '#002675')
               .style('stroke-width', '5');
 
 
@@ -265,13 +267,14 @@ class MapChart {
             // Change fill-col and stroke-width
             d3.select(this)
               .style('cursor', 'pointer')
+              .style('stroke', '#002675')
               .style('stroke-width', '5');
 
-            // Add Tooltip
-            d3.selectAll('.tooltip').transition()
+            // Add tooltipMapMap
+            d3.selectAll('.tooltipMap').transition()
               .duration(200)
               .style("opacity", '1');
-            d3.selectAll('.tooltip').html(
+            d3.selectAll('.tooltipMap').html(
               d.properties.location +
               ' (' + d.properties.code + ')' +
               '<br/>' + 'Value: ' + d.properties.value)
@@ -284,9 +287,10 @@ class MapChart {
           .on('mouseout', function (d) {
 
             d3.selectAll('.unclicked')
+              .style('stroke', '#7f7f7f')
               .style('stroke-width', '1');
 
-            d3.selectAll('.tooltip').transition()
+            d3.selectAll('.tooltipMap').transition()
               .duration(500)
               .style("opacity", '0');
 
@@ -302,13 +306,13 @@ class MapChart {
 
 
   /**
-   * 
-   * 
+   *
+   *
    * Calls the render function with new data
    * @param {Object} dataAsJSON - e.g. {json: file}
    * @param {Number} year - e.g. 2015
    * @param {String} crime - e.g. Violent.crime.number
-   * 
+   *
    */
   filter(dataAsJSON, year, crime) {
 

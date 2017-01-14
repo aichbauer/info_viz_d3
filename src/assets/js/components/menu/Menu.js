@@ -18,23 +18,23 @@ class Menu {
     this.button = d3.select(divClass).append('button');
     this.button.html('Show Data');
 
-    const checkAbs = d3.select(divClass).append('div');
-    const checkRate = d3.select(divClass).append('div');
+    const radioAbs = d3.select(divClass).append('div');
+    const radioRate = d3.select(divClass).append('div');
 
-    this.radioValueRate = checkRate.append('input');
+    this.radioValueRate = radioRate.append('input');
     this.radioValueRate.attr('id', 'menu-rate')
       .attr('type', 'radio')
       .attr('value', 'rate')
       .attr('name', 'valueRate');
-    checkRate.append('label').text('rate');
+    radioRate.append('label').text('rate');
 
-    this.radioValueAbs = checkAbs.append('input');
+    this.radioValueAbs = radioAbs.append('input');
     this.radioValueAbs.attr('id', 'menu-abs')
       .attr('type', 'radio')
       .property('checked', true)
       .attr('value', 'abs')
       .attr('name', 'valueRate');
-    checkAbs.append('label').text('absolute');
+    radioAbs.append('label').text('absolute');
 
 
     d3.json(dataAsJSON, (error, json) => {
@@ -74,11 +74,11 @@ class Menu {
 
     let barchartHeight = window.innerWidth / 2;
     let barchartWidth = window.innerWidth / 2;
-    let myBarChart = new BarChart({ top: 40, bottom: 10, left: 120, right: 20 }, barchartWidth, barchartHeight, '.wrapper-barchart', './assets/data/Crime_Region_old.json');
+    let myBarChart = new BarChart({ top: 40, bottom: 10, left: 120, right: 20 }, barchartWidth, barchartHeight, '.wrapper-barchart', './assets/data/Crime_Region.json');
 
     let linechartHeight = window.innerHeight / 3;
     let linechartWidth = window.innerWidth;
-    new LineChart({ top: 40, bottom: 10, left: 120, right: 20 }, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region_old.json');
+    new LineChart({ top: 40, bottom: 10, left: 120, right: 20 }, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json');
 
     this.button
       .on('click', function (event) {

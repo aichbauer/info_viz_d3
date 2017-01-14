@@ -8,12 +8,14 @@ var browserify = require('browserify');
 var babelify = require('babelify');
 var del = require('del');
 var gutil = require('gulp-util');
+var ipath = require('get-installed-path');
+var copy = require('copy');
 
 
-gulp.task('default', ['htmlTask', 'sassTask', 'jsTask', 'dataTask']);
+gulp.task('default', ['htmlTask', 'sassTask', 'jsTask', 'dataTask', 'materializeTask']);
 
 
-gulp.task('serve', ['htmlTask', 'sassTask', 'jsTask', 'dataTask'], function () {
+gulp.task('serve', ['htmlTask', 'sassTask', 'jsTask', 'dataTask', 'materializeTask'], function () {
 
 
   gulp.src('./dist')
@@ -75,6 +77,33 @@ gulp.task('jsTask', function () {
     .on('error', handleError)
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./dist/assets/js'));
+});
+
+gulp.task('materializeTask', function () {
+
+
+  ipath('materialize-css', {
+    local: true
+  }).then((path) => {
+    console.log(path)
+
+    gulp.src(path+'/dist/css/materialize.min.css')
+    .pipe(gulp.dest('./dist/assets/css/'))
+    .on('error', handleError);
+    gulp.src(path+'/dist/fonts/roboto')
+    .pipe(gulp.dest('./dist/assets/fonts'))
+    .on('error', handleError);
+    gulp.src(path+'/dist/js/materialize.min.js')
+    .pipe(gulp.dest('./dist/assets/js/'))
+    .on('error', handleError);
+
+    // => '/home/charlike/.nvm/path/to/lib/node_modules/npm' 
+  }).catch((err) => {
+    console.log(err.message)
+    // => 'module not found "foo-bar-barwerwlekrjw" in path ...' 
+  })
+
+
 });
 
 gulp.task('dataTask', function () {

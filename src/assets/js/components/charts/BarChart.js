@@ -9,26 +9,58 @@ class BarChart {
   // this.argument is available in every function inside this class
   constructor(margin, width, height, barchartDivClass, dataAsJSON) {
 
+    // binding this to that for closure
     const that = this;
 
     this.margin = margin;
-
     this.width = width - margin.left - margin.right;
     this.height = height - margin.top - margin.bottom;
 
-    // Style for tooltip
-    this.darkGrey = 'rgb(127, 127, 127)';
-    this.tooltipPadding = '15px';
+    // RADIO BUTTONS
+    this.wrapperRadio = d3.select(barchartDivClass).append('div')
+      .attr('class', 'wrapperRadio');
 
-    // Add radiobuttons to barchart
-    const radioAsc = d3.select(barchartDivClass).append('div');
+    this.controlStacked = this.wrapperRadio.append('div')
+      .attr('class', 'custom-controls-stacked');
 
-    this.radioValueAsc = radioAsc.append('input');
-    this.radioValueAsc.attr('id', 'menu-rate')
+    this.customRadio1 = this.controlStacked.append('label')
+      .attr('class', 'custom-control custom-radio');
+
+    this.customRadio2 = this.controlStacked.append('label')
+      .attr('class', 'custom-control custom-radio');
+
+    this.radioValueDesc = this.customRadio1.append('input')
+      .attr('class', 'custom-control-input')
+      .attr('id', 'desc')
+      .attr('type', 'radio')
+      .attr('value', 'desc')
+      .attr('name', 'sortStyle');
+
+    this.customRadio1.append('span')
+      .attr('class', 'custom-control-indicator');
+
+    this.customRadio1.append('span')
+      .attr('class', 'custom-control-description description')
+      .text('rate');
+
+    this.radioValueAsc = this.customRadio2.append('input')
+      .attr('class', 'custom-control-input')
+      .attr('id', 'asc')
       .attr('type', 'radio')
       .attr('value', 'asc')
       .attr('name', 'sortStyle')
+      .property('checked', 'checked');
+
+    this.customRadio2.append('span')
+      .attr('class', 'custom-control-indicator');
+
+    this.customRadio2.append('span')
+      .attr('class', 'custom-control-description description')
+      .text('absolute');
+
+    this.radioValueAsc
       .on('click', function (e) {
+
         // Sort the Data ascending
         let selYear = document.getElementById('menu-year-selection');
         selYear = selYear.options[selYear.selectedIndex].value;
@@ -36,44 +68,34 @@ class BarChart {
         selCrime = selCrime.options[selCrime.selectedIndex].value;
 
         that.filter(dataAsJSON, selYear, selCrime, 'asc');
+
       });
-    radioAsc.append('label').text('sort ascending');
 
-    const radioDesc = d3.select(barchartDivClass).append('div');
-
-    this.radioValueDesc = radioDesc.append('input');
-    this.radioValueDesc.attr('id', 'menu-abs')
-      .attr('type', 'radio')
-      .property('checked', true)
-      .attr('value', 'desc')
-      .attr('name', 'sortStyle')
+    this.radioValueDesc
       .on('click', function (e) {
 
+        // Sort the Data ascending
         let selYear = document.getElementById('menu-year-selection');
         selYear = selYear.options[selYear.selectedIndex].value;
         let selCrime = document.getElementById('menu-crime-selection');
         selCrime = selCrime.options[selCrime.selectedIndex].value;
-        // Sort the Data descending
-        that.filter(dataAsJSON, selYear, selCrime, 'desc');
+
+        that.filter(dataAsJSON, selYear, selCrime, 'asc');
+
       });
-    radioDesc.append('label').text('sort descending');
+    // RADIO BUTTONS END
 
     this.svg = d3.select(barchartDivClass).append('svg')
       .attr('width', this.width + margin.left + margin.right)
       .attr('height', this.height + margin.top + margin.bottom)
       .attr('class', 'svg-barchart');
+
     this.g = this.svg.append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
     // APPEND DIV FOR TOOLTIP TO SVG
     this.div = d3.select(barchartDivClass).append('div')
-      .attr('class', 'tooltipBar')
-      .style('opacity', '0')
-      .style('position', 'absolute')
-      .style('background', this.darkGrey)
-      .style('color', 'white')
-      .style('font-family', 'sans-serif')
-      .style('padding', this.tooltipPadding);
+      .attr('class', 'tooltipBar');
 
     this.xscale = d3.scaleLinear().range([0, this.width]);
     this.yscale = d3.scaleBand().rangeRound([0, this.height]).paddingInner(0.1);
@@ -84,8 +106,10 @@ class BarChart {
     this.g_yaxis = this.g.append('g').attr('class', 'y axis');
 
     d3.json(dataAsJSON, (error, json) => {
+
       this.data = json;
       this.render(this.data);
+
     });
 
   }
@@ -95,50 +119,63 @@ class BarChart {
     let fillCol;
 
     switch (crimeName) {
+
       case 'Population':
         fillCol = d3.rgb(31, 119, 180, alphaVal);
         break;
+
       case 'Violent.crime.number':
       case 'Violent.crime.number.rate':
         fillCol = d3.rgb(148, 103, 189, alphaVal);
         break;
+
       case 'Murder.and.nonnegligent.manslaughter':
       case 'Murder.and.nonnegligent.manslaughter.rate':
         fillCol = d3.rgb(214, 39, 40, alphaVal);
         break;
+
       case 'Rape':
       case 'Rape.rate':
         fillCol = d3.rgb(255, 127, 14, alphaVal);
         break;
+
       case 'Robbery':
       case 'Robbery.rate':
         fillCol = d3.rgb(44, 160, 44, alphaVal);
         break;
+
       case 'Aggravated.assault':
       case 'Aggravated.assault.rate':
         fillCol = d3.rgb(140, 86, 75, alphaVal);
         break;
+
       case 'Property.crime':
       case 'Property.crime.rate':
         fillCol = d3.rgb(188, 189, 34, alphaVal);
         break;
+
       case 'Burglary':
       case 'Burglary.rate':
         fillCol = d3.rgb(23, 190, 207, alphaVal);
         break;
+
       case 'Larceny.theft':
       case 'Larceny.theft.rate':
         fillCol = d3.rgb(227, 119, 194, alphaVal);
         break;
+
       case 'Motor.vehicle.theft':
       case 'Motor.vehicle.theft.rate':
         fillCol = d3.rgb(102, 170, 0, alphaVal);
         break;
+
       default:
         break;
+
     }
 
     return fillCol;
+
   }
 
   sortDataByValue(data, crime, year) {
@@ -211,19 +248,19 @@ class BarChart {
     // ENTER + UPDATE
     // both old and new elements
     rect.merge(rect_enter).transition()
-      .attr('height', this.yscale.bandwidth()-5)
+      .attr('class', 'barchart-rect')
+      .attr('height', this.yscale.bandwidth() - 5)
       .attr('width', (d) => this.xscale(d['crimes']['years'][year][crime]))
       .attr('y', (d) => this.yscale(d.location))
-      .style('stroke', darkGrey)
-      .style('stroke-width', 1)
       .style('fill', (d) => {
+
         // Get data value
         let value = d.crimes.years[year][crime];
         let opacityVal = 0.01 * ((value / highestVal) * 100);
-
         let fillCol = this.barFillCol(crime, opacityVal);
 
         return d3.rgb(fillCol);
+
       });
 
     rect.merge(rect_enter)
@@ -257,23 +294,23 @@ class BarChart {
       })// END MOUSEOUT
       .on('click', function (d) {
 
-            d3.selectAll('.clickedBar')
-              .attr('class', 'unclickedBar')
-              .style('stroke-width', '1');
+        d3.selectAll('.clickedBar')
+          .attr('class', 'unclickedBar')
+          .style('stroke-width', '1');
 
-            d3.select(this)
-              .attr('class', 'clickedBar')
-              .style('stroke-width', '5');
+        d3.select(this)
+          .attr('class', 'clickedBar')
+          .style('stroke-width', '5');
 
 
-            let linechartWidth = window.innerWidth;
-            let linechartHeight = window.innerHeight/3;
+        let linechartWidth = window.innerWidth;
+        let linechartHeight = window.innerHeight / 3;
 
-            d3.select('.wrapper-graph').html(''); 
+        d3.select('.wrapper-graph').html('');
 
-            new LineChart({top: 40, bottom: 10, left: 120, right: 20}, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json', d.location, document.querySelector('input[name="valueRate"]:checked').value);
-            
-          })
+        new LineChart({ top: 40, bottom: 10, left: 120, right: 20 }, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json', d.location, document.querySelector('input[name="valueRate"]:checked').value);
+
+      })
 
     rect.merge(rect_enter).select('title').text((d) => d.location);
 
@@ -283,14 +320,18 @@ class BarChart {
 
   }
 
+
   filter(dataAsJSON, year, crime, order) {
 
     d3.json(dataAsJSON, (error, json) => {
+
       this.data = json;
       this.render(this.data, year, crime, order);
 
     });
+
   }
+
 }
 
 

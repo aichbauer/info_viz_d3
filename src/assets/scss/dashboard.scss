@@ -3,7 +3,7 @@
 $font-stack: Lato, sans-serif;
 $primary-color: #333;
 $dashboard-bg-col: #dcdcdc;
-$menu-bar-bg-col: #48d1cc;
+$menu-bar-bg-col: #002675;
 $map-barchart-bg-col: #fff;
 $map-bg-col: #fff;
 $barchart-bg-col: #fff;
@@ -20,6 +20,7 @@ body {
   background: $dashboard-bg-col;
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
 
   .wrapper-menu,
   .wrapper-map-barchart,
@@ -34,6 +35,57 @@ body {
     background: $menu-bar-bg-col;
     height: 10vh;
     justify-content: flex-start;
+
+    .logo {
+      content: url('https://upload.wikimedia.org/wikipedia/commons/9/9f/FBISeal.png');
+      height: 10vh;
+      margin: 0 10;
+      width: auto;
+    }
+
+    .wrapperInput,
+    .wrapperRadio {
+      margin-top: 2.2vh;
+    }
+
+    #menu-crime-selection,
+    #menu-year-selection,
+    #radioAbs,
+    #radioRate {
+      float: left;
+    }
+
+    #menu-crime-selection,
+     #menu-year-selection {
+       margin: 10;
+     }
+
+    #menu-crime-selection {
+      width: 340px;
+    }
+
+    #menu-year-selection {
+      width: 70px;
+    }
+
+    .description {
+      color: #fff;
+    }
+
+    .menuBtn {
+      cursor: pointer;
+      border: 1px #fff solid;
+      color: #fff;
+      margin: 20 10;
+
+      &:hover {
+        background-color: #fff;
+        color: $menu-bar-bg-col;
+      } 
+    }
+
+
+
   }
 
   .wrapper-map-barchart {

@@ -50,26 +50,7 @@ class MapChart {
       .style('color', 'white')
       .style('font-family', 'sans-serif')
       .style('padding', this.tooltipPadding);
-
-    let divSize = 50;
-    let marginTop = 40;
-    let marginLeft = document.getElementById('map').offsetWidth - (divSize + 5);
-
-    // APPEND DIV FOR TOOLTIP TO SVG
-    this.div = d3.select(mapChartDivClass).append('div')
-      .attr('class', 'dc')
-      .style('opacity', '1')
-      .style('position', 'absolute')
-      .style('background', this.darkGrey)
-      .style('width', '50px')
-      .style('height', '50px')
-      .style('top', marginTop + '%')
-      .style('left', marginLeft)
-      .text('District of Columbia')
-      .style('color', 'white')
-      .style('font-family', 'sans-serif')
-      .style('font-size', '10px')
-      .style('padding', '5');
+      
 
     this.render(dataAsJSON);
   }
@@ -171,7 +152,7 @@ class MapChart {
               if (json.features[j].properties.code === 'DC') {
                 dc = json.features[j];
               }
-              
+
               // Stop looking through the JSON
               break;
             }
@@ -232,12 +213,12 @@ class MapChart {
 
 
             let linechartWidth = window.innerWidth;
-            let linechartHeight = window.innerHeight/3;
+            let linechartHeight = window.innerHeight / 3;
 
-            d3.select('.wrapper-graph').html(''); 
+            d3.select('.wrapper-graph').html('');
 
-            new LineChart({top: 40, bottom: 10, left: 120, right: 20}, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json', d.properties.location, document.querySelector('input[name="valueRate"]:checked').value);
-            
+            new LineChart({ top: 40, bottom: 10, left: 120, right: 20 }, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json', d.properties.location, document.querySelector('input[name="valueRate"]:checked').value);
+
           })
           /**** MOUSEOVER ****/
           .on('mouseover', function (d) {
@@ -272,8 +253,6 @@ class MapChart {
           })// END MOUSEOUT
 
           .exit().remove(); // END SVG
-        
-        svg.selectAll('.dc')
 
       });// END LOAD GEO DATA
     }); // END LOAD STATE DATA

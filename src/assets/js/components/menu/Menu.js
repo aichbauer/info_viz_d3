@@ -13,38 +13,70 @@ class Menu {
 
     this.valueRateAbs = 'abs';
 
+    d3.select(divClass).append('img')
+      .attr('class', 'logo');
 
-    this.inputYear = d3.select(divClass).append('select');
+
+    // INPUT FIELDS
+
+    this.wrapperInput = d3.select(divClass).append('div')
+      .attr('class', 'wrapperInput');
+
+    this.inputYear = this.wrapperInput.append('select');
     this.inputYear
-      .attr('id', 'menu-year-selection');
+      .attr('id', 'menu-year-selection')
+      .attr('class', 'form-control');
 
-    this.inputCrime = d3.select(divClass).append('select');
-    this.inputCrime.attr('id', 'menu-crime-selection');
+    this.inputCrime = this.wrapperInput.append('select');
+    this.inputCrime.attr('id', 'menu-crime-selection')
+      .attr('class', 'form-control');
 
-    this.button = d3.select(divClass).append('button');
-    this.button.html('Show Data');
 
-    const radioAbs = d3.select(divClass).append('div');
-    const radioRate = d3.select(divClass).append('div');
+    // RADIO BUTTONS
 
-    this.radioValueRate = radioRate.append('input');
-    this.radioValueRate.attr('id', 'menu-rate')
+    this.wrapperRadio = d3.select(divClass).append('div')
+      .attr('class', 'wrapperRadio');
+
+    this.controlStacked = this.wrapperRadio.append('div')
+      .attr('class', 'custom-controls-stacked');
+
+    this.customRadio1 = this.controlStacked.append('label')
+      .attr('class', 'custom-control custom-radio');
+
+    this.customRadio2 = this.controlStacked.append('label')
+      .attr('class', 'custom-control custom-radio');
+
+    this.radioValueRate = this.customRadio1.append('input')
+      .attr('class', 'custom-control-input')
+      .attr('id', 'menu-rate')
       .attr('type', 'radio')
       .attr('value', 'rate')
       .attr('name', 'valueRate');
-    radioRate.append('label').text('rate');
 
-    this.radioValueAbs = radioAbs.append('input');
-    this.radioValueAbs.attr('id', 'menu-abs')
+    this.customRadio1.append('span')
+      .attr('class', 'custom-control-indicator');
+
+    this.customRadio1.append('span')
+      .attr('class', 'custom-control-description description')
+      .text('rate');
+
+    this.radioValueAbs = this.customRadio2.append('input')
+      .attr('class', 'custom-control-input')
+      .attr('id', 'menu-abs')
       .attr('type', 'radio')
-      .property('checked', 'checked')
       .attr('value', 'abs')
-      .attr('name', 'valueRate');
-    radioAbs.append('label').text('absolute');
+      .attr('name', 'valueRate')
+      .property('checked', 'checked');
+
+    this.customRadio2.append('span')
+      .attr('class', 'custom-control-indicator');
+
+    this.customRadio2.append('span')
+      .attr('class', 'custom-control-description description')
+      .text('absolute');
 
     this.radioValueAbs
       .on('click', function () {
-
         that.inputCrime.html("");
         that.inputYear.html("");
         that.valueRateAbs = 'abs';
@@ -61,6 +93,10 @@ class Menu {
         that.createDropDown(this.valueRate, dataAsJSON);
 
       });
+
+    this.button = d3.select(divClass).append('button')
+      .attr('class', 'btn btn-outline-primary menuBtn')
+      .text('Show Data');
 
     this.createDropDown(this.valueRate, dataAsJSON);
 
@@ -120,18 +156,12 @@ class Menu {
           let option_1 = this.inputCrime.append('option');
           option_1.html(i);
           option_1.attr('value', i);
-        } else if (this.valueRateAbs == 'abs' && i.includes('rate') != true){
+        } else if (this.valueRateAbs == 'abs' && i.includes('rate') != true) {
           let option_2 = this.inputCrime.append('option');
           option_2.html(i);
           option_2.attr('value', i);
           if (i === 'Murder.and.nonnegligent.manslaughter') option_2.attr('selected', 'selected');
         }
-        
-
-
-
-        
-
       }
 
       if (this.initConstruct === 0) {

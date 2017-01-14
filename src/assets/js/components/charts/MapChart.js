@@ -7,13 +7,15 @@ class MapChart {
   constructor(margin, width, height, mapChartDivClass, dataAsJSON, geoData) {
 
     const that = this;
-    this.geoData = geoData;
-    this.darkGrey = 'rgb(127, 127, 127)';
-    this.lightGrey = 'rgb(199, 199, 199)';
-    this.tooltipPadding = '15px';
-    const washingtonDCWidth = '50px';
-    const washingtonDCHeight = '50px';
 
+    this.margin = margin;
+    this.width = width - margin.left - margin.right;
+    this.height = height - margin.top - margin.bottom;
+
+    this.geoData = geoData;
+
+    this.darkGrey = 'rgb(127, 127, 127)';
+  
     // D3 PROJECTION
     this.projection = d3.geoAlbersUsa()
       // translate to center of screen
@@ -27,30 +29,17 @@ class MapChart {
       // tell path generator to use albersUsa projection
       .projection(this.projection);
 
-    this.margin = margin;
-
-    this.width = width - margin.left - margin.right;
-    this.height = height - margin.top - margin.bottom;
-
-
     // CREATE SVG ELEMENT AND APPEND MAP TO SVG
     this.svg = d3.select(mapChartDivClass).append('svg')
+      .attr('class', 'svg-mapchart')
       .attr('width', this.width + margin.left + margin.right)
-      .attr('height', this.height + margin.top + margin.bottom)
-      .attr('class', 'svg-mapchart');
+      .attr('height', this.height + margin.top + margin.bottom);
     this.g = this.svg.append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
     // APPEND DIV FOR TOOLTIP TO SVG
     this.div = d3.select(mapChartDivClass).append('div')
-      .attr('class', 'tooltip')
-      .style('opacity', '0')
-      .style('position', 'absolute')
-      .style('background', this.darkGrey)
-      .style('color', 'white')
-      .style('font-family', 'sans-serif')
-      .style('padding', this.tooltipPadding);
-      
+      .attr('class', 'tooltip');
 
     this.render(dataAsJSON);
   }
@@ -61,42 +50,52 @@ class MapChart {
 
     switch (crimeName) {
       case 'Population':
+        // lightblue
         fillCol = d3.rgb(31, 119, 180, alphaVal);
         break;
       case 'Violent.crime.number':
       case 'Violent.crime.number.rate':
+        // lightpurple
         fillCol = d3.rgb(148, 103, 189, alphaVal);
         break;
       case 'Murder.and.nonnegligent.manslaughter':
       case 'Murder.and.nonnegligent.manslaughter.rate':
+        // red
         fillCol = d3.rgb(214, 39, 40, alphaVal);
         break;
       case 'Rape':
       case 'Rape.rate':
+        // orange
         fillCol = d3.rgb(255, 127, 14, alphaVal);
         break;
       case 'Robbery':
       case 'Robbery.rate':
+        // dark-green
         fillCol = d3.rgb(44, 160, 44, alphaVal);
         break;
       case 'Aggravated.assault':
       case 'Aggravated.assault.rate':
+        // brown
         fillCol = d3.rgb(140, 86, 75, alphaVal);
         break;
       case 'Property.crime':
       case 'Property.crime.rate':
+        // yellow-brown
         fillCol = d3.rgb(188, 189, 34, alphaVal);
         break;
       case 'Burglary':
       case 'Burglary.rate':
+        // turquoise
         fillCol = d3.rgb(23, 190, 207, alphaVal);
         break;
       case 'Larceny.theft':
       case 'Larceny.theft.rate':
+        // light-pink
         fillCol = d3.rgb(227, 119, 194, alphaVal);
         break;
       case 'Motor.vehicle.theft':
       case 'Motor.vehicle.theft.rate':
+        // light-green
         fillCol = d3.rgb(102, 170, 0, alphaVal);
         break;
       default:
@@ -118,7 +117,6 @@ class MapChart {
     d3.json(new_data, (data) => {
 
       let allValues = [];
-      let dc = {};
 
       // Load GeoJSON data and merge with states data
       d3.json(this.geoData, (json) => {
@@ -149,17 +147,11 @@ class MapChart {
               json.features[j].properties.location = location;
               json.features[j].properties.code = code;
 
-              if (json.features[j].properties.code === 'DC') {
-                dc = json.features[j];
-              }
-
               // Stop looking through the JSON
               break;
             }
           }
         }
-
-        console.log(dc);
 
         // Get highest value
         allValues = allValues.sort((a, b) => a - b).reverse();

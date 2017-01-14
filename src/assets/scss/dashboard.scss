@@ -85,38 +85,43 @@ body {
 
   .wrapper-map-barchart {
     background: $white;
-  }
 
-  .wrapper-map {
-    background: $white;
-    height: 50vh;
-    justify-content: center;
-    min-height: $min-height-map;
-    overflow: scroll;
+    .wrapper-map {
+      background: $white;
+      height: 50vh;
+      justify-content: center;
+      min-height: $min-height-map;
+      overflow: scroll;
+    }
 
-    .tooltipMap {
+    .wrapper-barchart {
+      background: $white;
+      overflow: scroll;
+
+      .wrapperRadioBar {
+        margin: 10 0 0 10;
+      }
+    }
+
+    .tooltipMap,
+    .tooltipBar {
       background: $menu-bar-bg-col;
       color: $white;
       opacity: 0;
       padding: $tooltap-padding;
       position: absolute;
     }
-  }
 
-  .wrapper-barchart {
-    background: $white;
-    overflow: scroll;
-  }
+    .svg-barchart {
+      background: $white;
+    }
 
-  .svg-barchart {
-    background: $white;
-  }
-
-  .wrapper-map,
-  .wrapper-barchart {
-    height: 50vh;
-    min-height: $min-height-map;
-    width: 50vw;
+    .wrapper-map,
+    .wrapper-barchart {
+      height: 50vh;
+      min-height: $min-height-map;
+      width: 50vw;
+    }
   }
 
   .wrapper-graph {

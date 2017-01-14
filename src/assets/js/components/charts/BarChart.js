@@ -17,10 +17,10 @@ class BarChart {
     this.height = height - margin.top - margin.bottom;
 
     // RADIO BUTTONS
-    this.wrapperRadio = d3.select(barchartDivClass).append('div')
-      .attr('class', 'wrapperRadio');
+    this.wrapperRadioBar = d3.select(barchartDivClass).append('div')
+      .attr('class', 'wrapperRadioBar');
 
-    this.controlStacked = this.wrapperRadio.append('div')
+    this.controlStacked = this.wrapperRadioBar.append('div')
       .attr('class', 'custom-controls-stacked');
 
     this.customRadio1 = this.controlStacked.append('label')
@@ -34,29 +34,29 @@ class BarChart {
       .attr('id', 'desc')
       .attr('type', 'radio')
       .attr('value', 'desc')
-      .attr('name', 'sortStyle');
+      .attr('name', 'sortStyle')
+      .property('checked', 'checked');
 
     this.customRadio1.append('span')
       .attr('class', 'custom-control-indicator');
 
     this.customRadio1.append('span')
       .attr('class', 'custom-control-description description')
-      .text('rate');
+      .text('sort descending');
 
     this.radioValueAsc = this.customRadio2.append('input')
       .attr('class', 'custom-control-input')
       .attr('id', 'asc')
       .attr('type', 'radio')
       .attr('value', 'asc')
-      .attr('name', 'sortStyle')
-      .property('checked', 'checked');
+      .attr('name', 'sortStyle');
 
     this.customRadio2.append('span')
       .attr('class', 'custom-control-indicator');
 
     this.customRadio2.append('span')
       .attr('class', 'custom-control-description description')
-      .text('absolute');
+      .text('sort ascending');
 
     this.radioValueAsc
       .on('click', function (e) {
@@ -80,7 +80,7 @@ class BarChart {
         let selCrime = document.getElementById('menu-crime-selection');
         selCrime = selCrime.options[selCrime.selectedIndex].value;
 
-        that.filter(dataAsJSON, selYear, selCrime, 'asc');
+        that.filter(dataAsJSON, selYear, selCrime, 'desc');
 
       });
     // RADIO BUTTONS END
@@ -242,13 +242,13 @@ class BarChart {
       .attr('y', 0)
       .attr('width', 0)
       .attr('height', 0)
-      .attr('class', 'unclickedBar');
     rect_enter.append('title');
 
     // ENTER + UPDATE
     // both old and new elements
     rect.merge(rect_enter).transition()
-      .attr('class', 'barchart-rect')
+      .attr('class', 'barchart-rect unclickedBar')
+      .style('stroke', '7f7f7f')
       .attr('height', this.yscale.bandwidth() - 5)
       .attr('width', (d) => this.xscale(d['crimes']['years'][year][crime]))
       .attr('y', (d) => this.yscale(d.location))
@@ -269,6 +269,7 @@ class BarChart {
         // Change fill-col and stroke-width
         d3.select(this)
           .style('cursor', 'pointer')
+          .style('stroke', '#002675')
           .style('stroke-width', '3');
 
         // Add Tooltip
@@ -286,6 +287,7 @@ class BarChart {
       .on('mouseout', function (d) {
 
         d3.selectAll('.unclickedBar')
+          .style('stroke', '7f7f7f')
           .style('stroke-width', '1');
 
         d3.selectAll('.tooltipBar').transition()
@@ -296,6 +298,7 @@ class BarChart {
 
         d3.selectAll('.clickedBar')
           .attr('class', 'unclickedBar')
+          .style('stroke', '7f7f7f')
           .style('stroke-width', '1');
 
         d3.select(this)
@@ -329,11 +332,8 @@ class BarChart {
       this.render(this.data, year, crime, order);
 
     });
-
   }
-
 }
-
 
 // exporting our class as default so that we can import it in our app... ### ./src/assets/js/index.js ###
 export { BarChart as default };

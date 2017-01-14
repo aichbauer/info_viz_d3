@@ -195,13 +195,11 @@ class MapChart {
 
             d3.selectAll('.clicked')
               .attr('class', 'unclicked')
-              .attr('z-index', '0')
               .style('stroke', '#7f7f7f')
               .style('stroke-width', '1');
 
             d3.select(this)
               .attr('class', 'clicked')
-              .attr('z-index', '10000')
               .style('stroke', '#002675')
               .style('stroke-width', '5');
 
@@ -220,7 +218,6 @@ class MapChart {
             // Change fill-col and stroke-width
             d3.select(this)
               .style('cursor', 'pointer')
-              .attr('z-index', '10000')
               .style('stroke', '#002675')
               .style('stroke-width', '5');
 
@@ -240,7 +237,6 @@ class MapChart {
           .on('mouseout', function (d) {
 
             d3.selectAll('.unclicked')
-              .attr('z-index', '0')
               .style('stroke', '#7f7f7f')
               .style('stroke-width', '1');
 

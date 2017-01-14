@@ -90,8 +90,8 @@ gulp.task('materializeTask', function () {
     gulp.src(path+'/dist/css/materialize.min.css')
     .pipe(gulp.dest('./dist/assets/css/'))
     .on('error', handleError);
-    gulp.src(path+'/dist/fonts/roboto')
-    .pipe(gulp.dest('./dist/assets/fonts'))
+    gulp.src(path+'/dist/fonts/roboto/**.*')
+    .pipe(gulp.dest('./dist/assets/fonts/roboto/'))
     .on('error', handleError);
     gulp.src(path+'/dist/js/materialize.min.js')
     .pipe(gulp.dest('./dist/assets/js/'))

@@ -212,7 +212,7 @@ class MapChart {
 
             d3.select('.wrapper-graph').html(''); 
 
-            new LineChart({top: 40, bottom: 10, left: 120, right: 20}, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region_old.json', d.properties.location, document.querySelector('input[name="valueRate"]:checked').value);
+            new LineChart({top: 40, bottom: 10, left: 120, right: 20}, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json', d.properties.location, document.querySelector('input[name="valueRate"]:checked').value);
             
           })
           /**** MOUSEOVER ****/

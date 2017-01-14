@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import LineChart from './LineChart';
 
 
 class MapChart {
@@ -200,6 +201,7 @@ class MapChart {
           /**** ON-CLICK ****/
           .on('click', function (d) {
             console.log(d.properties.location);
+            console.log(document.querySelector('input[name="valueRate"]:checked').value);
 
             d3.selectAll('.clicked')
               .attr('class', 'unclicked')
@@ -208,6 +210,15 @@ class MapChart {
             d3.select(this)
               .attr('class', 'clicked')
               .style('stroke-width', '5');
+
+
+            let linechartWidth = window.innerWidth;
+            let linechartHeight = window.innerHeight/3;
+
+            d3.select('.wrapper-graph').html(''); 
+
+            new LineChart({top: 40, bottom: 10, left: 120, right: 20}, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json', d.properties.location, document.querySelector('input[name="valueRate"]:checked').value);
+            
           })
           /**** MOUSEOVER ****/
           .on('mouseover', function (d) {

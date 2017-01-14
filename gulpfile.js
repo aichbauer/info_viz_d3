@@ -85,7 +85,7 @@ gulp.task('bootstrapTask', function () {
   ipath('bootstrap', {
     local: true
   }).then((path) => {
-    console.log(path)
+    console.log(path);
 
     gulp.src(path+'/dist/css/bootstrap.min.css')
     .pipe(gulp.dest('./dist/assets/css/'))
@@ -99,9 +99,9 @@ gulp.task('bootstrapTask', function () {
 
     // => '/home/charlike/.nvm/path/to/lib/node_modules/npm' 
   }).catch((err) => {
-    console.log(err.message)
+    console.log(err.message);
     // => 'module not found "foo-bar-barwerwlekrjw" in path ...' 
-  })
+  });
 
 
 });

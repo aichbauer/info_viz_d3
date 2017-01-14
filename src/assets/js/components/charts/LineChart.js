@@ -158,13 +158,9 @@ class LineChart {
     .style('align-content', 'flex-end');
 
     for (let i in dataGroup){
-      console.log(dataGroup[i].key);
-
-      console.log(document.getElementById('line_' + dataGroup[i].key).getAttribute('stroke'));
 
       let legendColor = document.getElementById('line_' + dataGroup[i].key).getAttribute('stroke');
-
-      let legendpart = legend.append('div')
+      let legendpart = legend.append('div');
 
       let inner = legendpart.append('div');
       inner.append('div')

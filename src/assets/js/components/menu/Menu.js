@@ -116,9 +116,6 @@ class Menu {
 
       for (let i of crimes) {
 
-        console.log(i.includes(this.valueRateAbs))
-        console.log(i);
-
         if (this.valueRateAbs == 'rate' && i.includes('rate')) {
           let option_1 = this.inputCrime.append('option');
           option_1.html(i);
@@ -136,8 +133,8 @@ class Menu {
         
 
       }
-      console.log(this.initConstruct);
-      if (this.initConstruct == 0) {
+
+      if (this.initConstruct === 0) {
 
         this.render(dataAsJSON);
         this.initConstruct++;

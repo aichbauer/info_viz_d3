@@ -56,10 +56,6 @@ gulp.task('sassTask', function () {
     return gulp.src('./src/assets/scss/*.scss')
       .pipe(sass())
       .pipe(gulp.dest('./dist/assets/css'))
-      .pipe(plumber(function (error) {
-        gutil.log(error.message);
-        this.emit('end');
-      }))
       .on('error', handleError);
   });
 
@@ -74,10 +70,6 @@ gulp.task('htmlTask', function () {
 
     return gulp.src('./src/*.html')
       .pipe(gulp.dest('dist'))
-      .pipe(plumber(function (error) {
-        gutil.log(error.message);
-        this.emit('end');
-      }))
       .on('error', handleError);
   });
 
@@ -113,10 +105,6 @@ gulp.task('dataTask', function () {
 
     return gulp.src('./src/assets/data/*.*')
       .pipe(gulp.dest('./dist/assets/data'))
-      .pipe(plumber(function (error) {
-        gutil.log(error.message);
-        this.emit('end');
-      }))
       .on('error', handleError);
   });
 });

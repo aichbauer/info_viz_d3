@@ -73,7 +73,7 @@ class Menu {
     let mapCharttWidth = 960;
     let myMapChart = new MapChart({ top: 40, bottom: 10, left: 120, right: 20 }, mapCharttWidth, mapChartHeight, '.wrapper-map', './assets/data/Crime_Region.json', './assets/data/us-states.json');
 
-    let barchartHeight = window.innerWidth / 2;
+    let barchartHeight = window.innerWidth;
     let barchartWidth = window.innerWidth / 2;
     let myBarChart = new BarChart({ top: 40, bottom: 10, left: 120, right: 20 }, barchartWidth, barchartHeight, '.wrapper-barchart', './assets/data/Crime_Region.json');
 

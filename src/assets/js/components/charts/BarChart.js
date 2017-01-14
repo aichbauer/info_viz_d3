@@ -17,10 +17,6 @@ class BarChart {
 
     //let year = document.querySelector('input[id="menu-year-selection"]').select.option[selected.selectedIndex];
     //let crime = document.querySelector('input[id="menu-crime-selection"]').select.option[selected.selectedIndex];
-    let selYear = document.getElementById('menu-year-selection');
-    selYear = selYear.options[selYear.selectedIndex].value;
-    let selCrime = document.getElementById('menu-crime-selection');
-    selCrime = selCrime.options[selCrime.selectedIndex].value;
 
     // Add radiobuttons to barchart
     const radioAsc = d3.select(barchartDivClass).append('div');
@@ -32,6 +28,10 @@ class BarChart {
       .attr('name', 'sortStyle')
       .on('click', function (e) {
         // Sort the Data ascending
+        let selYear = document.getElementById('menu-year-selection');
+        selYear = selYear.options[selYear.selectedIndex].value;
+        let selCrime = document.getElementById('menu-crime-selection');
+        selCrime = selCrime.options[selCrime.selectedIndex].value;
         
         that.filter(dataAsJSON, selYear, selCrime, 'asc');
       });
@@ -46,6 +46,11 @@ class BarChart {
       .attr('value', 'desc')
       .attr('name', 'sortStyle')
       .on('click', function (e) {
+
+        let selYear = document.getElementById('menu-year-selection');
+        selYear = selYear.options[selYear.selectedIndex].value;
+        let selCrime = document.getElementById('menu-crime-selection');
+        selCrime = selCrime.options[selCrime.selectedIndex].value;
         // Sort the Data descending
         that.filter(dataAsJSON, selYear, selCrime, 'desc');
       });
@@ -148,8 +153,9 @@ class BarChart {
   }
 
 
-  render(new_data, year = '2015', crime = 'Murder.and.nonnegligent.manslaughter', order = 'desc') {
+  render(new_data, year = '2015', crime = 'Murder.and.nonnegligent.manslaughter', order) {
     
+    order = document.querySelector('input[name="sortStyle"]:checked').value;
     
     this.sortDataByValue(new_data, year, crime);
 

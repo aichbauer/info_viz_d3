@@ -87,10 +87,8 @@ class Menu {
         d3.event.preventDefault();
         var selYear = document.getElementById('menu-year-selection');
         selYear = selYear.options[selYear.selectedIndex].value;
-        console.log(selYear);
         var selCrime = document.getElementById('menu-crime-selection');
         selCrime = selCrime.options[selCrime.selectedIndex].value;
-        console.log(selCrime);
         myMapChart.filter(data, selYear, selCrime);
         myBarChart.filter(data, selYear, selCrime);
       });

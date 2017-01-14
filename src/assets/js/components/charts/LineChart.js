@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 
 class LineChart {
 
-  constructor(margin, width, height, linechartDivClass, dataAsJSON) {
+  constructor(margin, width, height, linechartDivClass, dataAsJSON, location, valueRate) {
 
     this.margin = margin;
 
@@ -14,7 +14,7 @@ class LineChart {
 
     d3.json(dataAsJSON, (error, json) => {
       this.data = json;
-      this.render(this.data);
+      this.render(this.data, location, valueRate);
     });
 
   }

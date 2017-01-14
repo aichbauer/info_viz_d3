@@ -7,6 +7,12 @@ class Menu {
 
   constructor(dataAsJSON, divClass) {
 
+    const that = this;
+
+    this.initConstruct = 0;
+
+    this.valueRateAbs = 'abs';
+
 
     this.inputYear = d3.select(divClass).append('select');
     this.inputYear
@@ -31,38 +37,33 @@ class Menu {
     this.radioValueAbs = radioAbs.append('input');
     this.radioValueAbs.attr('id', 'menu-abs')
       .attr('type', 'radio')
-      .property('checked', true)
+      .property('checked', 'checked')
       .attr('value', 'abs')
       .attr('name', 'valueRate');
     radioAbs.append('label').text('absolute');
 
+    this.radioValueAbs
+      .on('click', function () {
 
-    d3.json(dataAsJSON, (error, json) => {
-      this.data = json;
+        that.inputCrime.html("");
+        that.inputYear.html("");
+        that.valueRateAbs = 'abs';
+        that.createDropDown(this.valueRate, dataAsJSON);
 
-      let years = Object.keys(this.data[0].crimes.years);
-      for (let i of years) {
+      });
 
-        let option = this.inputYear.append('option');
-        option.html(i);
-        option.attr('value', i);
+    this.radioValueRate
+      .on('click', function () {
 
-        if (i === '2015') option.attr('selected', 'selected');
+        that.inputCrime.html("");
+        that.inputYear.html("");
+        that.valueRateAbs = 'rate';
+        that.createDropDown(this.valueRate, dataAsJSON);
 
-      }
-      let crimes = Object.keys(this.data[0].crimes.years['2009']);
+      });
 
-      for (let i of crimes) {
+    this.createDropDown(this.valueRate, dataAsJSON);
 
-        let option = this.inputCrime.append('option');
-        option.html(i);
-        option.attr('value', i);
-
-        if (i === 'Murder.and.nonnegligent.manslaughter') option.attr('selected', 'selected');
-
-      }
-      this.render(dataAsJSON);
-    });
   }
 
 
@@ -93,6 +94,59 @@ class Menu {
         myMapChart.filter(data, selYear, selCrime);
         myBarChart.filter(data, selYear, selCrime);
       });
+  }
+
+
+  createDropDown(valueRate, dataAsJSON) {
+
+    d3.json(dataAsJSON, (error, json) => {
+      this.data = json;
+
+      this.inputCrime.empty();
+
+      let years = Object.keys(this.data[0].crimes.years);
+      for (let i of years) {
+
+        let option = this.inputYear.append('option');
+        option.html(i);
+        option.attr('value', i);
+
+        if (i === '2015') option.attr('selected', 'selected');
+
+      }
+      let crimes = Object.keys(this.data[0].crimes.years['2009']);
+
+      for (let i of crimes) {
+
+        console.log(i.includes(this.valueRateAbs))
+        console.log(i);
+
+        if (this.valueRateAbs == 'rate' && i.includes('rate')) {
+          let option_1 = this.inputCrime.append('option');
+          option_1.html(i);
+          option_1.attr('value', i);
+        } else if (this.valueRateAbs == 'abs' && i.includes('rate') != true){
+          let option_2 = this.inputCrime.append('option');
+          option_2.html(i);
+          option_2.attr('value', i);
+          if (i === 'Murder.and.nonnegligent.manslaughter') option_2.attr('selected', 'selected');
+        }
+        
+
+
+
+        
+
+      }
+      console.log(this.initConstruct);
+      if (this.initConstruct == 0) {
+
+        this.render(dataAsJSON);
+        this.initConstruct++;
+
+      }
+    });
+
   }
 
 }

@@ -51,6 +51,27 @@ class MapChart {
       .style('font-family', 'sans-serif')
       .style('padding', this.tooltipPadding);
 
+    let divSize = 50;
+    let marginTop = 40;
+    let marginLeft = document.getElementById('map').offsetWidth - divSize;
+    console.log(marginLeft);
+
+    // APPEND DIV FOR TOOLTIP TO SVG
+    this.div = d3.select(mapChartDivClass).append('div')
+      .attr('class', 'dc')
+      .style('opacity', '1')
+      .style('position', 'absolute')
+      .style('background', this.darkGrey)
+      .style('width', '50px')
+      .style('height', '50px')
+      .style('top', marginTop + '%')
+      .style('left', marginLeft)
+      .text('District of Columbia')
+      .style('color', 'white')
+      .style('font-family', 'sans-serif')
+      .style('font-size', '10px')
+      .style('padding', '5');
+
     this.render(dataAsJSON);
   }
 

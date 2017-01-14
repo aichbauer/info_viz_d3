@@ -1,5 +1,6 @@
 // import every dependency that we need (npm install)
 import * as d3 from 'd3';
+import LineChart from './LineChart';
 
 // Class -> constructor gets called when using ### new ### statement
 class BarChart {
@@ -15,8 +16,9 @@ class BarChart {
     this.width = width - margin.left - margin.right;
     this.height = height - margin.top - margin.bottom;
 
-    //let year = document.querySelector('input[id="menu-year-selection"]').select.option[selected.selectedIndex];
-    //let crime = document.querySelector('input[id="menu-crime-selection"]').select.option[selected.selectedIndex];
+    // Style for tooltip
+    this.darkGrey = 'rgb(127, 127, 127)';
+    this.tooltipPadding = '15px';
 
     // Add radiobuttons to barchart
     const radioAsc = d3.select(barchartDivClass).append('div');
@@ -32,7 +34,7 @@ class BarChart {
         selYear = selYear.options[selYear.selectedIndex].value;
         let selCrime = document.getElementById('menu-crime-selection');
         selCrime = selCrime.options[selCrime.selectedIndex].value;
-        
+
         that.filter(dataAsJSON, selYear, selCrime, 'asc');
       });
     radioAsc.append('label').text('sort ascending');
@@ -62,6 +64,16 @@ class BarChart {
       .attr('class', 'svg-barchart');
     this.g = this.svg.append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    // APPEND DIV FOR TOOLTIP TO SVG
+    this.div = d3.select(barchartDivClass).append('div')
+      .attr('class', 'tooltipBar')
+      .style('opacity', '0')
+      .style('position', 'absolute')
+      .style('background', this.darkGrey)
+      .style('color', 'white')
+      .style('font-family', 'sans-serif')
+      .style('padding', this.tooltipPadding);
 
     this.xscale = d3.scaleLinear().range([0, this.width]);
     this.yscale = d3.scaleBand().rangeRound([0, this.height]).paddingInner(0.1);
@@ -154,15 +166,15 @@ class BarChart {
 
 
   render(new_data, year = '2015', crime = 'Murder.and.nonnegligent.manslaughter', order) {
-    
+
     order = document.querySelector('input[name="sortStyle"]:checked').value;
-    
+
     this.sortDataByValue(new_data, year, crime);
 
-    if(order == 'desc'){
+    if (order == 'desc') {
       new_data.reverse();
     }
-    
+
     let allValues = [];
     let darkGrey = 'rgb(127, 127, 127)';
 
@@ -189,16 +201,17 @@ class BarChart {
     // ENTER
     // new elements
     const rect_enter = rect.enter().append('rect')
-      .attr('x', 0) //set intelligent default values for animation
+      .attr('x', 1) //set intelligent default values for animation
       .attr('y', 0)
       .attr('width', 0)
       .attr('height', 0)
+      .attr('class', 'unclickedBar');
     rect_enter.append('title');
 
     // ENTER + UPDATE
     // both old and new elements
     rect.merge(rect_enter).transition()
-      .attr('height', this.yscale.bandwidth())
+      .attr('height', this.yscale.bandwidth()-5)
       .attr('width', (d) => this.xscale(d['crimes']['years'][year][crime]))
       .attr('y', (d) => this.yscale(d.location))
       .style('stroke', darkGrey)
@@ -208,16 +221,64 @@ class BarChart {
         let value = d.crimes.years[year][crime];
         let opacityVal = 0.01 * ((value / highestVal) * 100);
 
-        // Define min opacity
-        // if (opacityVal < 0.3) {
-        //   opacityVal += 0.2;
-        // }
-
         let fillCol = this.barFillCol(crime, opacityVal);
 
         return d3.rgb(fillCol);
       });
+
+    rect.merge(rect_enter)
+      .on('mouseover', function (d) {
+
+        // Change fill-col and stroke-width
+        d3.select(this)
+          .style('cursor', 'pointer')
+          .style('stroke-width', '3');
+
+        // Add Tooltip
+        d3.selectAll('.tooltipBar').transition()
+          .duration(200)
+          .style("opacity", '1');
+        d3.selectAll('.tooltipBar').html(
+          d.location +
+          ' (' + d.code + ')' +
+          '<br/>' + 'Value: ' + d.crimes.years[year][crime])
+          .style('left', (d3.event.pageX) + 'px')
+          .style('top', (d3.event.pageY + 50) + 'px');
+
+      }) //END Mouseover
+      .on('mouseout', function (d) {
+
+        d3.selectAll('.unclickedBar')
+          .style('stroke-width', '1');
+
+        d3.selectAll('.tooltipBar').transition()
+          .duration(500)
+          .style("opacity", '0');
+      })// END MOUSEOUT
+      .on('click', function (d) {
+            console.log(d.location);
+            console.log(document.querySelector('input[name="valueRate"]:checked').value);
+
+            d3.selectAll('.clickedBar')
+              .attr('class', 'unclickedBar')
+              .style('stroke-width', '1');
+
+            d3.select(this)
+              .attr('class', 'clickedBar')
+              .style('stroke-width', '5');
+
+
+            let linechartWidth = window.innerWidth;
+            let linechartHeight = window.innerHeight/3;
+
+            d3.select('.wrapper-graph').html(''); 
+
+            new LineChart({top: 40, bottom: 10, left: 120, right: 20}, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json', d.location, document.querySelector('input[name="valueRate"]:checked').value);
+            
+          })
+
     rect.merge(rect_enter).select('title').text((d) => d.location);
+
     // EXIT
     // elements that aren't associated with data
     rect.exit().remove();

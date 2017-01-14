@@ -7,7 +7,6 @@ var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var babelify = require('babelify');
 var del = require('del');
-var plumber = require('gulp-plumber');
 var gutil = require('gulp-util');
 
 
@@ -49,62 +48,38 @@ function handleError(err) {
 
 gulp.task('sassTask', function () {
 
-  del(['./dist/assets/scss/*.scss']).then(paths => {
-
-    console.log('Deleted files and folders:\n', paths.join('\n'));
-
-    return gulp.src('./src/assets/scss/*.scss')
-      .pipe(sass())
-      .pipe(gulp.dest('./dist/assets/css'))
-      .on('error', handleError);
-  });
-
+  return gulp.src('./src/assets/scss/*.scss')
+    .pipe(sass())
+    .pipe(gulp.dest('./dist/assets/css'))
+    .on('error', handleError);
 });
 
 
 gulp.task('htmlTask', function () {
 
-  del(['./dist/*.html']).then(paths => {
-
-    console.log('Deleted files and folders:\n', paths.join('\n'));
-
-    return gulp.src('./src/*.html')
-      .pipe(gulp.dest('dist'))
-      .on('error', handleError);
-  });
-
+  return gulp.src('./src/*.html')
+    .pipe(gulp.dest('dist'))
+    .on('error', handleError);
 });
 
 
 gulp.task('jsTask', function () {
 
-  del(['./dist/assets/js/bundle.js']).then(paths => {
+  return browserify({
 
-    console.log('Deleted files and folders:\n', paths.join('\n'));
+    entries: './src/assets/js/index.js'
 
-    return browserify({
-
-      entries: './src/assets/js/index.js'
-
-    })
-      .transform(babelify)
-      .bundle()
-      .on('error', handleError)
-      .pipe(source('bundle.js'))
-      .pipe(gulp.dest('./dist/assets/js'));
-  });
-
+  })
+    .transform(babelify)
+    .bundle()
+    .on('error', handleError)
+    .pipe(source('bundle.js'))
+    .pipe(gulp.dest('./dist/assets/js'));
 });
-
 
 gulp.task('dataTask', function () {
 
-  del(['./dist/assets/data/*.*']).then(paths => {
-
-    console.log('Deleted files and folders:\n', paths.join('\n'));
-
-    return gulp.src('./src/assets/data/*.*')
-      .pipe(gulp.dest('./dist/assets/data'))
-      .on('error', handleError);
-  });
+  return gulp.src('./src/assets/data/*.*')
+    .pipe(gulp.dest('./dist/assets/data'))
+    .on('error', handleError);
 });

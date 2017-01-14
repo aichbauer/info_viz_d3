@@ -256,8 +256,6 @@ class BarChart {
           .style("opacity", '0');
       })// END MOUSEOUT
       .on('click', function (d) {
-            console.log(d.location);
-            console.log(document.querySelector('input[name="valueRate"]:checked').value);
 
             d3.selectAll('.clickedBar')
               .attr('class', 'unclickedBar')

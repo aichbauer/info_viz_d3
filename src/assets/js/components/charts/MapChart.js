@@ -53,8 +53,7 @@ class MapChart {
 
     let divSize = 50;
     let marginTop = 40;
-    let marginLeft = document.getElementById('map').offsetWidth - divSize;
-    console.log(marginLeft);
+    let marginLeft = document.getElementById('map').offsetWidth - (divSize + 5);
 
     // APPEND DIV FOR TOOLTIP TO SVG
     this.div = d3.select(mapChartDivClass).append('div')
@@ -169,11 +168,17 @@ class MapChart {
               json.features[j].properties.location = location;
               json.features[j].properties.code = code;
 
+              if (json.features[j].properties.code === 'DC') {
+                dc = json.features[j];
+              }
+              
               // Stop looking through the JSON
               break;
             }
           }
         }
+
+        console.log(dc);
 
         // Get highest value
         allValues = allValues.sort((a, b) => a - b).reverse();
@@ -216,8 +221,6 @@ class MapChart {
 
           /**** ON-CLICK ****/
           .on('click', function (d) {
-            console.log(d.properties.location);
-            console.log(document.querySelector('input[name="valueRate"]:checked').value);
 
             d3.selectAll('.clicked')
               .attr('class', 'unclicked')
@@ -268,7 +271,9 @@ class MapChart {
 
           })// END MOUSEOUT
 
-          .exit().remove();
+          .exit().remove(); // END SVG
+        
+        svg.selectAll('.dc')
 
       });// END LOAD GEO DATA
     }); // END LOAD STATE DATA

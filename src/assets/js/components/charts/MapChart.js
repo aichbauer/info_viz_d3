@@ -14,8 +14,6 @@ class MapChart {
 
     this.geoData = geoData;
 
-    this.darkGrey = 'rgb(127, 127, 127)';
-  
     // D3 PROJECTION
     this.projection = d3.geoAlbersUsa()
       // translate to center of screen
@@ -37,9 +35,9 @@ class MapChart {
     this.g = this.svg.append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    // APPEND DIV FOR TOOLTIP TO SVG
+    // APPEND DIV FOR tooltipMap TO SVG
     this.div = d3.select(mapChartDivClass).append('div')
-      .attr('class', 'tooltip');
+      .attr('class', 'tooltipMap');
 
     this.render(dataAsJSON);
   }
@@ -170,7 +168,7 @@ class MapChart {
           .data(json.features)
           .merge(this.svg.selectAll('path'))
           .attr('d', this.path)
-          .style('stroke', this.darkGrey)
+          .style('stroke', '#7f7f7f')
           .attr('class', 'unclicked')
           .style('stroke-width', '1')
 
@@ -197,10 +195,14 @@ class MapChart {
 
             d3.selectAll('.clicked')
               .attr('class', 'unclicked')
+              .attr('z-index', '0')
+              .style('stroke', '#7f7f7f')
               .style('stroke-width', '1');
 
             d3.select(this)
               .attr('class', 'clicked')
+              .attr('z-index', '10000')
+              .style('stroke', '#002675')
               .style('stroke-width', '5');
 
 
@@ -218,13 +220,15 @@ class MapChart {
             // Change fill-col and stroke-width
             d3.select(this)
               .style('cursor', 'pointer')
+              .attr('z-index', '10000')
+              .style('stroke', '#002675')
               .style('stroke-width', '5');
 
-            // Add Tooltip
-            d3.selectAll('.tooltip').transition()
+            // Add tooltipMapMap
+            d3.selectAll('.tooltipMap').transition()
               .duration(200)
               .style("opacity", '1');
-            d3.selectAll('.tooltip').html(
+            d3.selectAll('.tooltipMap').html(
               d.properties.location +
               ' (' + d.properties.code + ')' +
               '<br/>' + 'Value: ' + d.properties.value)
@@ -236,9 +240,11 @@ class MapChart {
           .on('mouseout', function (d) {
 
             d3.selectAll('.unclicked')
+              .attr('z-index', '0')
+              .style('stroke', '#7f7f7f')
               .style('stroke-width', '1');
 
-            d3.selectAll('.tooltip').transition()
+            d3.selectAll('.tooltipMap').transition()
               .duration(500)
               .style("opacity", '0');
 

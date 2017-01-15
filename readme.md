@@ -2,6 +2,10 @@
 
 ## author: Lukas Aichbauer, Bianca Leitner
 
+## The finished Dashboard is available at:
+
+[FBI crime statistics from the US](https://rudolfsonjunior.github.io/FBIcrimeInUS/)
+
 ### Installation
 
 ```bash

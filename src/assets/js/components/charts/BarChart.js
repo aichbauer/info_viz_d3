@@ -31,17 +31,11 @@ class BarChart {
       .attr('class', 'tooltipBar');
 
     // RADIO BUTTONS START (they have to be structured like that -> bootstrap v4-alpha6)
-    // radio wrapper
-    this.wrapperRadio = d3.select(barchartDivClass).append('div')
-      .attr('class', 'wrapperRadio');
-    // RADIO BUTTONS
     this.wrapperRadioBar = d3.select(barchartDivClass).append('div')
       .attr('class', 'wrapperRadioBar');
 
     this.controlStacked = this.wrapperRadioBar.append('div')
     // controll wrapper
-    this.controlStacked = this.wrapperRadio.append('div')
-      .attr('class', 'custom-controls-stacked');
 
     // radio button wrapper1
     this.customRadio1 = this.controlStacked.append('label')
@@ -323,12 +317,15 @@ class BarChart {
       .attr('y', 0)
       .attr('width', 0)
       .attr('height', 0)
-      .attr('class', 'unclickedBar');
+      .attr('class', 'unclicked');
 
     // ENTER + UPDATE
     // both old and new elemente
     rect.merge(rect_enter).transition()
-      .attr('class', 'barchart-rect unclickedBar')
+      .attr('class', 'barchart-rect unclicked')
+      .attr('id', (d) => {
+        return 'bar-' + d.code;
+      })
       .style('stroke', '7f7f7f')
       .attr('height', this.yscale.bandwidth() - 5)
       .attr('width', (d) => this.xscale(d['crimes']['years'][year][crime]))
@@ -352,7 +349,6 @@ class BarChart {
         // Change fill-col and stroke-width
         d3.select(this)
           .style('cursor', 'pointer')
-          .style('stroke', '#002675')
           .style('stroke-width', '3');
 
         // Add Tooltip
@@ -368,12 +364,11 @@ class BarChart {
           .style('top', (d3.event.pageY + 50) + 'px');
 
       }) // MOUSEOVER END
-        // MOUSEOVER START
+      // MOUSEOVER START
       .on('mouseout', function (d) {
 
         // if its unlicked the stroke should change from hovered (= 5) to not hovered (= 1)
-        d3.selectAll('.unclickedBar')
-          .style('stroke', '7f7f7f')
+        d3.selectAll('.unclicked')
           .style('stroke-width', '1');
 
         // make the tooltip invisible
@@ -381,23 +376,28 @@ class BarChart {
           .duration(500)
           .style("opacity", '0');
       }) // MOUSEOUT END
-        // CLICK START
+      // CLICK START
       .on('click', function (d) {
 
+        console.log(d)
+
         // make all clicked bars unclicked and set stroke back from 5 to 1
-        d3.selectAll('.clickedBar')
-          .attr('class', 'unclickedBar')
-          .style('stroke', '7f7f7f')
+        d3.selectAll('.clicked')
+          .attr('class', 'unclicked')
           .style('stroke-width', '1');
 
         // make this element clicked and set stroke to 5
         d3.select(this)
-          .attr('class', 'clickedBar')
+          .attr('class', 'clicked')
+          .style('stroke-width', '5');
+
+        d3.select('#map-' + d.code)
+          .attr('class', 'clicked')
           .style('stroke-width', '5');
 
         // vars for the height and with for the linechart
         let linechartWidth = window.innerWidth;
-        let linechartHeight = window.innerHeight / 3;
+        let linechartHeight = (window.innerHeight / 2) - 80;
 
         // select the div weher the linechart should be rendered
         d3.select('.wrapper-graph').html('');
@@ -406,7 +406,7 @@ class BarChart {
         new LineChart({ top: 40, bottom: 10, left: 120, right: 20 }, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json', d.location, document.querySelector('input[name="valueRate"]:checked').value);
 
       });
-      // CLICK END
+    // CLICK END
 
     // EXIT
     // elements that aren't associated with data

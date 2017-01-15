@@ -138,8 +138,8 @@ class Menu {
   render(data) {
 
     // height, width for map, initialize map
-    let mapChartHeight = 500;
-    let mapCharttWidth = 960;
+    let mapChartHeight =  window.innerHeight / 2;
+    let mapCharttWidth = window.innerWidth / 2;
     let myMapChart = new MapChart({ top: 40, bottom: 10, left: 120, right: 20 }, mapCharttWidth, mapChartHeight, '.wrapper-map', './assets/data/Crime_Region.json', './assets/data/us-states.json');
 
     // height, width for barchart, initialize barchart
@@ -148,7 +148,7 @@ class Menu {
     let myBarChart = new BarChart({ top: 40, bottom: 10, left: 120, right: 20 }, barchartWidth, barchartHeight, '.wrapper-barchart', './assets/data/Crime_Region.json');
 
     // height, width for linechart, initialize linechart
-    let linechartHeight = window.innerHeight / 3;
+    let linechartHeight = (window.innerHeight/2)-40;
     let linechartWidth = window.innerWidth;
     new LineChart({ top: 40, bottom: 10, left: 120, right: 20 }, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json');
 
@@ -238,7 +238,7 @@ class Menu {
         this.initConstruct++;
 
       }
-      
+
     });
 
   }

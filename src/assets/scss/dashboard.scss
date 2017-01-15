@@ -5,8 +5,6 @@ $primary-color: #333;
 $menu-bar-bg-col: #002675;
 $white: #fff;
 
-$min-height-map: 480px;
-
 $tooltap-padding: 15px;
 
 body {
@@ -16,9 +14,8 @@ body {
 
 .container-dashboard {
   background: $white;
-  height: 100vh;
-  overflow: hidden;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 
   .wrapper-menu,
   .wrapper-map-barchart,
@@ -26,24 +23,27 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 100vw;
+    width: 100%;
   }
 
   .wrapper-menu {
     background: $menu-bar-bg-col;
-    height: 10vh;
+    height: 100px;
     justify-content: flex-start;
 
     .logo {
       content: url('https://upload.wikimedia.org/wikipedia/commons/9/9f/FBISeal.png');
-      height: 10vh;
-      margin: 0 10;
+      height: 86px;
+      margin: 7px 10px;
       width: auto;
     }
 
-    .wrapperInput,
-    .wrapperRadio {
-      margin-top: 2.2vh;
+    .wrapperInput{
+      margin-top: 30px;
+    }
+
+    .wrapperRadio{
+      margin-top: 23px;
     }
 
     #menu-crime-selection,
@@ -55,7 +55,8 @@ body {
 
     #menu-crime-selection,
     #menu-year-selection {
-      margin: 10;
+      height: 40px;
+      margin-right: 10px;
      }
 
     #menu-crime-selection {
@@ -74,7 +75,9 @@ body {
       cursor: pointer;
       border: 1px $white solid;
       color: $white;
-      margin: 20 10;
+      height: 40px;
+      margin-top: 30px;
+      margin-left: 20px;
 
       &:hover {
         background-color: $white;
@@ -90,8 +93,12 @@ body {
       background: $white;
       height: 50vh;
       justify-content: center;
-      min-height: $min-height-map;
-      overflow: scroll;
+      overflow: hidden;
+
+      .svg-mapchart {
+        margin-top: -30px;
+      }
+
     }
 
     .wrapper-barchart {
@@ -99,7 +106,7 @@ body {
       overflow: scroll;
 
       .wrapperRadioBar {
-        margin: 10 0 0 10;
+        margin: 10 0 0 100;
       }
     }
 
@@ -110,28 +117,31 @@ body {
       opacity: 0;
       padding: $tooltap-padding;
       position: absolute;
+      z-index: 9999;
     }
 
     .svg-barchart {
       background: $white;
+      overflow: scroll;
     }
 
     .wrapper-map,
     .wrapper-barchart {
-      height: 50vh;
-      min-height: $min-height-map;
+      height: 45%;
       width: 50vw;
     }
   }
 
   .wrapper-graph {
-    margin-top: 50px;
+    height: calc(50%-100px);
     background: $white;
-    height: 40vh;
-    overflow: hidden;
+    position: absolute;
+    bottom: 0;
 
     .legend {
-      margin: 0 auto;
+      position: absolute;
+      bottom: 0;
+      height: 4vh;
     }
 
     .legendPart,

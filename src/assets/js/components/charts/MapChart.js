@@ -27,13 +27,22 @@ class MapChart {
     this.height = height - margin.top - margin.bottom;
     this.geoData = geoData;
     this.darkGrey = 'rgb(127, 127, 127)';
-  
+
+    console.log(window.innerWidth);
+
+    let mapScale;
+
+    if (window.innerWidth < 720) mapScale = 400;
+    else if (window.innerWidth >= 720 && window.innerWidth < 1280) mapScale = 500;
+    else if (window.innerWidth >= 1280 && window.innerWidth < 1920) mapScale = 600;
+    else if (window.innerWidth >= 1920) mapScale = 800;
+
     // D3 PROJECTION
     this.projection = d3.geoAlbersUsa()
       // translate to center of screen
       .translate([width / 2, height / 2])
       // scale things down so see entire US
-      .scale([1000]);
+      .scale(mapScale);
 
     // DEFINE PATH GENERATOR
     // path generator that will convert GeoJSON to SVG paths
@@ -218,6 +227,9 @@ class MapChart {
           .attr('d', this.path)
           .style('stroke', '#7f7f7f')
           .attr('class', 'unclicked')
+          .attr('id', function (d) {
+            return 'map-' + d.properties.code;
+          })
           .style('stroke-width', '1')
 
           /**** DEFAULT FILL ****/
@@ -243,17 +255,19 @@ class MapChart {
 
             d3.selectAll('.clicked')
               .attr('class', 'unclicked')
-              .style('stroke', '#7f7f7f')
               .style('stroke-width', '1');
 
             d3.select(this)
               .attr('class', 'clicked')
-              .style('stroke', '#002675')
+              .style('stroke-width', '5');
+
+            d3.select('#bar-' + d.properties.code)
+              .attr('class', 'clicked')
               .style('stroke-width', '5');
 
 
             let linechartWidth = window.innerWidth;
-            let linechartHeight = window.innerHeight / 3;
+            let linechartHeight = (window.innerHeight / 2) - 80;
 
             d3.select('.wrapper-graph').html('');
 
@@ -267,7 +281,6 @@ class MapChart {
             // Change fill-col and stroke-width
             d3.select(this)
               .style('cursor', 'pointer')
-              .style('stroke', '#002675')
               .style('stroke-width', '5');
 
             // Add tooltipMapMap
@@ -287,7 +300,6 @@ class MapChart {
           .on('mouseout', function (d) {
 
             d3.selectAll('.unclicked')
-              .style('stroke', '#7f7f7f')
               .style('stroke-width', '1');
 
             d3.selectAll('.tooltipMap').transition()

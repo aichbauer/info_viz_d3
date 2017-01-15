@@ -238,13 +238,6 @@ class LineChart {
    * @returns {Object} The rgba value for the specified crimeName
    *
    */
-lineFillCol(crimeName, alphaVal) {
-
-  filter() {
-
-  }
-
-
   lineFillCol(crimeName, alphaVal) {
 
     let fillCol;

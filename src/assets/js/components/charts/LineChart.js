@@ -136,7 +136,7 @@ class LineChart {
 
     })]);
 
-    let yScale = d3.scaleLinear().range([this.height - this.margin.top, this.margin.bottom]).domain([d3.min(newData, function (d) {
+    let yScale = d3.scaleLinear().range([this.height-10, this.margin.bottom]).domain([d3.min(newData, function (d) {
 
       return d.crimeValue;
 
@@ -147,11 +147,27 @@ class LineChart {
     })])
 
     // bind scaling to x and y axis
-    let xAxis = d3.axisTop()
+    let xAxis = d3.axisBottom()
       .scale(xScale)
+      .tickFormat(function(e){
+        if(Math.floor(e) != e)
+        {
+            return;
+        }
+
+        return e;
+    });
 
     let yAxis = d3.axisLeft()
       .scale(yScale)
+      .tickFormat(function(e){
+        if(Math.floor(e) != e)
+        {
+            return;
+        }
+
+        return e;
+    });
 
 
     // append a svg group to our svg

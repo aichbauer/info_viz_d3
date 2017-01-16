@@ -126,11 +126,16 @@ body {
       overflow: scroll;
     }
 
-    .wrapper-map,
-    .wrapper-barchart {
+    .wrapper-map {
       height: 45%;
       width: 50vw;
     }
+
+    .wrapper-barchart {
+      height: 40%;
+      width: 50vw;
+    }
+
   }
 
   .wrapper-graph {

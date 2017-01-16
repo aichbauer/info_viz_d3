@@ -161,14 +161,17 @@ class Menu {
         d3.event.preventDefault();
 
         // select the current year and crime from the drop downs
-        var selYear = document.getElementById('menu-year-selection');
+        let selYear = document.getElementById('menu-year-selection');
         selYear = selYear.options[selYear.selectedIndex].value;
-        var selCrime = document.getElementById('menu-crime-selection');
+        let selCrime = document.getElementById('menu-crime-selection');
         selCrime = selCrime.options[selCrime.selectedIndex].value;
+        let selOrder = document.querySelector("input[name='sortStyle']:checked").value;
+
+        console.log(selOrder);
 
         // call filter (= rerender the charts with new data)
         myMapChart.filter(data, selYear, selCrime, lineChart);
-        myBarChart.filter(data, selYear, selCrime, lineChart);
+        myBarChart.filter(data, selYear, selCrime, selOrder, lineChart);
 
       });
 

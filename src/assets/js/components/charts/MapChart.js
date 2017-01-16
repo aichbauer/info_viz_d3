@@ -14,9 +14,10 @@ class MapChart {
    * @param {String} barchartDivClass - e.g .myExampleMapWrapperDiv
    * @param {String} dataAsJSON - e.g ./the/path/to/my/json/file.json
    * @param {String} geoData - e.g ./the/path/to/my/geoData/file.json (= long and lat for usa)
+   * @param {Object} lineChart - e.g. new LineChart(constructorargs)
    *
    */
-  constructor(margin, width, height, mapChartDivClass, dataAsJSON, geoData) {
+  constructor(margin, width, height, mapChartDivClass, dataAsJSON, geoData, lineChart) {
 
     // bind this to that
     const that = this;
@@ -62,7 +63,7 @@ class MapChart {
     this.div = d3.select(mapChartDivClass).append('div')
       .attr('class', 'tooltipMap');
 
-    this.render(dataAsJSON);
+    this.render(dataAsJSON, '2015', 'Murder.and.nonnegligent.manslaughter', lineChart);
 
   }
 
@@ -158,9 +159,12 @@ class MapChart {
    * @param {Object} new_data - e.g. {json: file}
    * @param {Number} year - e.g. 2015
    * @param {String} crime - e.g. Violent.crime.number
+   * @param {Object} lineChart - e.g. new LineChart(constructorargs)
    *
    */
-  render(new_data, year = '2015', crime = 'Murder.and.nonnegligent.manslaughter') {
+  render(new_data, year = '2015', crime = 'Murder.and.nonnegligent.manslaughter', lineChart) {
+
+    console.log(lineChart);
 
     const that = this;
 
@@ -253,6 +257,8 @@ class MapChart {
           /**** ON-CLICK ****/
           .on('click', function (d) {
 
+            console.log(lineChart);
+
             d3.selectAll('.clicked')
               .attr('class', 'unclicked')
               .style('stroke-width', '1');
@@ -271,7 +277,7 @@ class MapChart {
 
             d3.select('.wrapper-graph').html('');
 
-            new LineChart({ top: 40, bottom: 10, left: 120, right: 20 }, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json', d.properties.location, document.querySelector('input[name="valueRate"]:checked').value);
+            lineChart.filter('./assets/data/Crime_Region.json', d.properties.location, document.querySelector('input[name="valueRate"]:checked').value);
 
           })
 
@@ -324,11 +330,12 @@ class MapChart {
    * @param {Object} dataAsJSON - e.g. {json: file}
    * @param {Number} year - e.g. 2015
    * @param {String} crime - e.g. Violent.crime.number
+   * @param {Object} lineChart - e.g. new LineChart(constructorargs)
    *
    */
-  filter(dataAsJSON, year, crime) {
+  filter(dataAsJSON, year, crime, lineChart) {
 
-    this.render(dataAsJSON, year, crime);
+    this.render(dataAsJSON, year, crime, lineChart);
 
   }
 

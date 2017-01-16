@@ -155,12 +155,12 @@ class LineChart {
 
     // append a svg group to our svg
     // append x and y axis (call)
-    vis.append("g")
+    let g = vis.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + (this.height - this.margin.bottom) + ")")
       .call(xAxis);
 
-    vis.append("g")
+    g = vis.append("g")
       .attr("class", "y axis")
       .attr("transform", "translate(" + (this.margin.left) + ",0)")
       .call(yAxis);
@@ -195,7 +195,8 @@ class LineChart {
         })
         .attr('stroke-width', 2)
         .attr('id', 'line_' + dataGroup[i].key)
-        .attr('fill', 'none');
+        .attr('fill', 'none')
+        .enter()
 
     }
     // GENERATE LINES END
@@ -299,6 +300,20 @@ class LineChart {
     }
 
     return fillCol;
+
+  }
+
+
+  filter(new_data, location, valueRate){
+
+    // d3 read json
+    d3.json(new_data, (error, json) => {
+
+      // bind data to this.data and render with initial state (= es default value passed in args from render func)
+      this.data = json;
+      this.render(this.data, location, valueRate);
+
+    });
 
   }
 

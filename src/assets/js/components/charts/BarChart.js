@@ -14,9 +14,10 @@ class BarChart {
    * @param {Number} height - e.g. 200
    * @param {String} barchartDivClass - e.g .myExampleBarChartDiv
    * @param {String} dataAsJSON - e.g ./the/path/to/my/json/file.json
+   * @param {Object} lineChart - e.g. new LineChart(constructorargs)
    *
    */
-  constructor(margin, width, height, barchartDivClass, dataAsJSON) {
+  constructor(margin, width, height, barchartDivClass, dataAsJSON, lineChart) {
 
     // binding this to that for closure
     const that = this;
@@ -141,7 +142,7 @@ class BarChart {
 
       // bind data to this.data and render with initial state (= es default value passed in args from render func)
       this.data = json;
-      this.render(this.data);
+      this.render(this.data, '2015', 'Murder.and.nonnegligent.manslaughter', 'desc', lineChart);
 
     });
 
@@ -264,9 +265,10 @@ class BarChart {
    * @param {Number} year - e.g. 2015
    * @param {String} crime - e.g. Violent.crime.number
    * @param {String} order - e.g. desc or asc;
+   * @param {Object} lineChart - e.g. new LineChart(constructorargs)
    *
    */
-  render(new_data, year = '2015', crime = 'Murder.and.nonnegligent.manslaughter', order) {
+  render(new_data, year = '2015', crime = 'Murder.and.nonnegligent.manslaughter', order, lineChart) {
 
     // get the order (= asc, desc) from the current clicked radiotbn
     order = document.querySelector('input[name="sortStyle"]:checked').value;
@@ -403,7 +405,7 @@ class BarChart {
         d3.select('.wrapper-graph').html('');
 
         // create a new instance of linechart with the data of current location and current ValueRate (= rate or abs)
-        new LineChart({ top: 40, bottom: 10, left: 120, right: 20 }, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json', d.location, document.querySelector('input[name="valueRate"]:checked').value);
+       lineChart.filter('./assets/data/Crime_Region.json', d.location, document.querySelector('input[name="valueRate"]:checked').value);
 
       });
     // CLICK END
@@ -423,16 +425,17 @@ class BarChart {
    * @param {Number} year - e.g. 2015
    * @param {String} crime - e.g. Violent.crime.number
    * @param {String} order - e.g. desc or asc;
+   * @param {Object} lineChart - e.g. new LineChart(constructorargs)
    *
    */
-  filter(dataAsJSON, year, crime, order) {
+  filter(dataAsJSON, year, crime, order, lineChart) {
 
     // d3 read json
     d3.json(dataAsJSON, (error, json) => {
 
       // bind data to this.data and render with initial state (= es default value passed in args from render func)
       this.data = json;
-      this.render(this.data, year, crime, order);
+      this.render(this.data, year, crime, order, lineChart);
 
     });
 

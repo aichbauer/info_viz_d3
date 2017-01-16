@@ -137,21 +137,24 @@ class Menu {
    */
   render(data) {
 
+    // height, width for linechart, initialize linechart
+    let linechartHeight = (window.innerHeight/2)-40;
+    let linechartWidth = window.innerWidth;
+    let lineChart = new LineChart({ top: 40, bottom: 10, left: 120, right: 20 }, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json');
+
+    console.log(lineChart);
+
     // height, width for map, initialize map
     let mapChartHeight =  window.innerHeight / 2;
     let mapCharttWidth = window.innerWidth / 2;
-    let myMapChart = new MapChart({ top: 40, bottom: 10, left: 120, right: 20 }, mapCharttWidth, mapChartHeight, '.wrapper-map', './assets/data/Crime_Region.json', './assets/data/us-states.json');
+    let myMapChart = new MapChart({ top: 40, bottom: 10, left: 120, right: 20 }, mapCharttWidth, mapChartHeight, '.wrapper-map', './assets/data/Crime_Region.json', './assets/data/us-states.json', lineChart);
 
     // height, width for barchart, initialize barchart
     let barchartHeight = window.innerWidth;
     let barchartWidth = window.innerWidth / 2;
-    let myBarChart = new BarChart({ top: 40, bottom: 10, left: 120, right: 20 }, barchartWidth, barchartHeight, '.wrapper-barchart', './assets/data/Crime_Region.json');
+    let myBarChart = new BarChart({ top: 40, bottom: 10, left: 120, right: 20 }, barchartWidth, barchartHeight, '.wrapper-barchart', './assets/data/Crime_Region.json', lineChart);
 
-    // height, width for linechart, initialize linechart
-    let linechartHeight = (window.innerHeight/2)-40;
-    let linechartWidth = window.innerWidth;
-    new LineChart({ top: 40, bottom: 10, left: 120, right: 20 }, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json');
-
+    
     // clickfunction for button
     this.button
       .on('click', function (event) {
@@ -166,8 +169,8 @@ class Menu {
         selCrime = selCrime.options[selCrime.selectedIndex].value;
 
         // call filter (= rerender the charts with new data)
-        myMapChart.filter(data, selYear, selCrime);
-        myBarChart.filter(data, selYear, selCrime);
+        myMapChart.filter(data, selYear, selCrime, lineChart);
+        myBarChart.filter(data, selYear, selCrime, lineChart);
 
       });
 

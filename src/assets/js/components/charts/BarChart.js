@@ -92,7 +92,7 @@ class BarChart {
         selCrime = selCrime.options[selCrime.selectedIndex].value;
 
         // reorder the data
-        that.filter(dataAsJSON, selYear, selCrime, 'asc');
+        that.filter(dataAsJSON, selYear, selCrime, 'asc', lineChart);
 
       });
 
@@ -107,7 +107,7 @@ class BarChart {
         selCrime = selCrime.options[selCrime.selectedIndex].value;
 
         // reorder the data
-        that.filter(dataAsJSON, selYear, selCrime, 'desc');
+        that.filter(dataAsJSON, selYear, selCrime, 'desc', lineChart);
 
       });
     // RADIO BUTTONS END

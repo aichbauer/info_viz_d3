@@ -121,7 +121,8 @@ class LineChart {
     let vis = d3.select(this.div).append('svg')
       .attr('width', this.width + this.margin.left + this.margin.right)
       .attr('height', this.height + this.margin.top + this.margin.bottom)
-      .attr('class', 'svg-linechart');
+      .attr('class', 'svg-linechart')
+      .attr('id', 'svg');
 
     // SCALE AND AXIS START
     // create the scaleung in the range min to max data for x and y
@@ -160,6 +161,15 @@ class LineChart {
       .attr("transform", "translate(0," + (this.height - this.margin.bottom) + ")")
       .call(xAxis);
 
+    // APPEND DIV FOR tooltipMap TO SVG
+    let tooltip = d3.select(this.div).append('div')
+      .attr('class', 'tooltipLine')
+      .style('position', 'absolute')
+      .style('opacity', '0')
+      .style('background-color', '#002675')
+      .style('color', '#fff')
+      .style('padding', '15px');
+
     g = vis.append("g")
       .attr("class", "y axis")
       .attr("transform", "translate(" + (this.margin.left) + ",0)")
@@ -196,7 +206,56 @@ class LineChart {
         .attr('stroke-width', 2)
         .attr('id', 'line_' + dataGroup[i].key)
         .attr('fill', 'none')
-        .enter()
+
+        /**** MOUSEOVER ****/
+        .on('mouseover', function (d) {
+
+          let values = [];
+          let years = [];
+
+          for (let j = 0; j < dataGroup[i].values.length; j++) {
+
+            years.push(dataGroup[i].values[j].year);
+            values.push(dataGroup[i].values[j].crimeValue);
+
+            // Change fill-col and stroke-width
+            d3.select(this)
+              .style('cursor', 'pointer')
+              .style('stroke-width', '5');
+
+            // Add tooltipMapMap
+            d3.selectAll('.tooltipLine')
+              .transition()
+              .duration(200)
+              .style("opacity", '1')
+              .style('z-index', '999999');
+
+            d3.selectAll('.tooltipLine').html(
+              'Crime: ' + dataGroup[i].key +
+              '<br/>' + years[0] + ': ' + values[0] +
+              '<br/>' + years[1] + ': ' + values[1] +
+              '<br/>' + years[2] + ': ' + values[2] +
+              '<br/>' + years[3] + ': ' + values[3] +
+              '<br/>' + years[4] + ': ' + values[4] +
+              '<br/>' + years[5] + ': ' + values[5] +
+              '<br/>' + years[6] + ': ' + values[6]
+            )
+              .style('left', (d3.mouse(this)[0]) + 'px')
+              .style('top', (d3.mouse(this)[1] - 250) + 'px');
+          }
+        })
+
+        .on('mouseout', function (d) {
+
+          // if its unlicked the stroke should change from hovered (= 5) to not hovered (= 1)
+          d3.select(this)
+            .style('stroke-width', '2');
+
+          // make the tooltip invisible
+          d3.selectAll('.tooltipLine').transition()
+            .duration(500)
+            .style("opacity", '0');
+        }); // MOUSEOUT END
 
     }
     // GENERATE LINES END
@@ -208,7 +267,7 @@ class LineChart {
       .attr('class', 'legend');
 
     // for every crimeValue
-    for (let i in dataGroup){
+    for (let i in dataGroup) {
 
       // get the current stroke attr
       let legendColor = document.getElementById('line_' + dataGroup[i].key).getAttribute('stroke');
@@ -226,19 +285,18 @@ class LineChart {
         .attr('class', 'legendPart-text')
         .text(dataGroup[i].key);
     }
-
   }
 
 
-/**
-   *
-   *
-   * fill color for our bars returns different color for different crime
-   * @param {String} crimeName - e.g. Violent.crime.number
-   * @param {Number} alphaVal - e.g. 0.2 (= int between 0 and 1)
-   * @returns {Object} The rgba value for the specified crimeName
-   *
-   */
+  /**
+     *
+     *
+     * fill color for our bars returns different color for different crime
+     * @param {String} crimeName - e.g. Violent.crime.number
+     * @param {Number} alphaVal - e.g. 0.2 (= int between 0 and 1)
+     * @returns {Object} The rgba value for the specified crimeName
+     *
+     */
   lineFillCol(crimeName, alphaVal) {
 
     let fillCol;
@@ -304,7 +362,7 @@ class LineChart {
   }
 
 
-  filter(new_data, location, valueRate){
+  filter(new_data, location, valueRate) {
 
     // d3 read json
     d3.json(new_data, (error, json) => {

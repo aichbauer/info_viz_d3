@@ -111,7 +111,8 @@ body {
     }
 
     .tooltipMap,
-    .tooltipBar {
+    .tooltipBar,
+    .tooltipLine {
       background: $menu-bar-bg-col;
       color: $white;
       opacity: 0;

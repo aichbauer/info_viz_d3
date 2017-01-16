@@ -29,8 +29,6 @@ class MapChart {
     this.geoData = geoData;
     this.darkGrey = 'rgb(127, 127, 127)';
 
-    console.log(window.innerWidth);
-
     let mapScale;
 
     if (window.innerWidth < 720) mapScale = 400;
@@ -164,8 +162,6 @@ class MapChart {
    */
   render(new_data, year = '2015', crime = 'Murder.and.nonnegligent.manslaughter', lineChart) {
 
-    console.log(lineChart);
-
     const that = this;
 
     //////////////////////
@@ -256,8 +252,6 @@ class MapChart {
 
           /**** ON-CLICK ****/
           .on('click', function (d) {
-
-            console.log(lineChart);
 
             d3.selectAll('.clicked')
               .attr('class', 'unclicked')

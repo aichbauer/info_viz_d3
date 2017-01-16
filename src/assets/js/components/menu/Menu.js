@@ -142,8 +142,6 @@ class Menu {
     let linechartWidth = window.innerWidth;
     let lineChart = new LineChart({ top: 40, bottom: 10, left: 120, right: 20 }, linechartWidth, linechartHeight, '.wrapper-graph', './assets/data/Crime_Region.json');
 
-    console.log(lineChart);
-
     // height, width for map, initialize map
     let mapChartHeight =  window.innerHeight / 2;
     let mapCharttWidth = window.innerWidth / 2;
